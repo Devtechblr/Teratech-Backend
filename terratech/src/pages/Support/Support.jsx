@@ -31,7 +31,7 @@ const Support = () => {
 
           {/* Image */}
           <img
-            src="/image 22.png"
+            src="/image (2).png"
             alt="Flybot-X UAV"
             className="object-cover shadow-lg max-h-[400px] w-full md:w-[90%] lg:w-[100%]"
           />
@@ -39,9 +39,9 @@ const Support = () => {
       </div>
 
       {/* Footer UAV Graphic - Bigger & Aligned Left */}
-      <div className="w-full mt-6 px-4">
+      <div className="w-full -mt-12 px-4">
         <img
-          src="/src/assets/FLYBOT-X.png"
+          src="/assets/FLYBOT-X.png"
           alt="Decorative Footer UAV"
           className="object-contain ml-0 w-[300px] md:w-[500px] lg:w-[600px]"
         />

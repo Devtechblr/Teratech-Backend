@@ -1,5 +1,4 @@
 import React from 'react'
-import flybotImage from '/src/assets/FLYBOT-X.png'
 
 const Security = () => {
   return (
@@ -46,7 +45,7 @@ const Security = () => {
 
           {/* Image */}
           <img
-            src="/image 22.png"
+            src="/image (2).png"
             alt="Flybot-X UAV"
             className="object-cover shadow-lg max-h-[400px] w-full md:w-[90%] lg:w-[100%]"
           />
@@ -56,7 +55,7 @@ const Security = () => {
       {/* Footer UAV Graphic - Bigger & Aligned Left */}
       <div className="w-full mt-6 px-4">
         <img
-          src={flybotImage}
+          src="/assets/FLYBOT-X.png"
           alt="Decorative Footer UAV"
           className="object-contain ml-0 w-[300px] md:w-[500px] lg:w-[600px]"
         />

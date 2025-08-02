@@ -7,7 +7,7 @@ const Contact = () => {
         {/* Left Section */}
         <div className="bg-white flex flex-col items-center justify-start pt-6 pb-6 px-4 sm:px-6 md:px-8 lg:px-10 relative w-full md:w-1/2">
           <img
-            src="/src/assets/TerraTech Logo Final White background_Transaperent 1.svg"
+            src="/assets/TerraTech Logo Final White background_Transaperent 1.svg"
             alt="TerraTech Aerospace Logo"
             className="w-24 sm:w-28 md:w-40 lg:w-52 mb-3"
           />
@@ -22,7 +22,7 @@ const Contact = () => {
           </p>
           {/* Faded Background Logo */}
           <img
-            src="/src/assets/TerraTech Logo Final White background_Transaperent 2.png"
+            src="/assets/TerraTech Logo Final White background_Transaperent 2.png"
             alt="Faded Logo"
             className="hidden md:block absolute bottom-2 right-4 w-64 md:w-80 lg:w-96 xl:w-[28rem] pointer-events-none select-none"
             style={{ objectFit: 'contain', zIndex: 0 }}

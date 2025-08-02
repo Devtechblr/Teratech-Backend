@@ -27,18 +27,30 @@ const Civilian = () => {
             </div>
           </div>
         </div>
-        {/* Right Section: Image & Button */}
-        <div className="flex flex-col items-center justify-start w-full">
-          <button className="self-end mb-6 px-16 py-3 bg-[#1C98ED] text-white font-semibold hover:bg-[#1878b8] transition md:mb-8">GET IN TOUCH</button>
-          <img src={('/image 22.png')} alt="Flybot-X UAV" className="w-full h-auto shadow-lg object-cover max-h-[340px] md:max-h-[400px]" />
+        {/* Right Section: Button + Image */}
+        <div className="w-full flex flex-col items-end pr-0 mr-0">
+          {/* Button */}
+          <div className="mb-4">
+            <button className="px-16 py-3 bg-[#1C98ED] text-white font-semibold cursor-pointer hover:bg-[#1878b8] transition">
+              GET IN TOUCH
+            </button>
+          </div>
+
+          {/* Image */}
+          <img
+            src="/image (2).png"
+            alt="Flybot-X UAV"
+            className="object-cover shadow-lg max-h-[400px] w-full md:w-[90%] lg:w-[100%]"
+          />
         </div>
 
       </div>
-      <div className="w-full -mt-24 px-4 flex justify-end">
+      {/* Footer UAV Graphic - Properly spaced */}
+      <div className="w-full mt-8 px-4">
         <img
-          src="/src/assets/FLYBOT-X.png"
+          src="/assets/FLYBOT-X.png"
           alt="Decorative Footer UAV"
-          className="object-contain w-[300px] md:w-[500px] lg:w-[600px]"
+          className="object-contain ml-0 w-[300px] md:w-[500px] lg:w-[600px]"
         />
       </div>
 
