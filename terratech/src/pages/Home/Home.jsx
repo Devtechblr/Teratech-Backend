@@ -5,28 +5,28 @@ const Home = () => {
   return (
     <>
       {/* Logo + Text */}
-      <div className="relative w-full h-[40vh] md:h-[80vh] lg:h-[90vh] flex justify-end items-start bg-gradient-to-br from-[#fff] via-[#fff] to-[#fff] overflow-hidden">
+      <div className="relative w-full h-[40vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[85vh] 2xl:h-[90vh] flex justify-end items-start bg-gradient-to-br from-[#fff] via-[#fff] to-[#fff] overflow-hidden">
         {/* LOGO + TEXT Section */}
-        <div className="absolute top-0 left-1 sm:top-14 sm:left-4 md:top-28 md:left-16 lg:top-12 lg:left-14 2xl:top-30 2xl:left-34 py-4 px-2 z-20">
-          <div className="flex items-center space-x-4">
+        <div className="absolute top-0 left-1 sm:top-2 sm:left-4 md:top-4 md:left-12 lg:top-6 lg:left-16 xl:top-8 xl:left-20 2xl:top-10 2xl:left-28 py-4 px-2 z-20">
+          <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
             <img
               src={'/favicon-removebg-preview.png'}
               alt="Website Logo"
-              className="w-12 sm:w-16 md:w-20 lg:w-34 2xl:w-80 h-auto object-contain"
+              className="w-10 sm:w-14 md:w-18 lg:w-22 xl:w-26 2xl:w-32 h-auto object-contain"
             />
           </div>
-          <div className="mt-6 sm:mt-20 2xl:mt-62 flex flex-col sm:gap-4">
+          <div className="mt-4 sm:mt-8 md:mt-12 lg:mt-16 xl:mt-20 2xl:mt-24 flex flex-col gap-2 sm:gap-3 md:gap-4">
             <div className="flex flex-col items-start gap-1">
-              <h1 className="text-[#1F2832] text-xs sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-7xl uppercase tracking-widest">
+              <h1 className="text-[#1F2832] text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl uppercase tracking-widest">
                 A High Performance
               </h1>
-              <p className="text-[#1F2832] text-xs sm:text-2xl md:text-3xl lg:text-4xl 2xl:text-7xl 2xl:mt-10 uppercase tracking-widest">
+              <p className="text-[#1F2832] text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl uppercase tracking-widest">
                 Commercial Drone
               </p>
             </div>
 
-            <div className="bg-[#1F2832] mt-6 px-2 py-1 sm:mt-6 sm:px-6 sm:py-4 2xl:mt-30 2xl:px-34 2xl:py-8 rounded-lg w-fit shadow-md">
-              <h2 className="text-white text-2xl sm:text-4xl md:text-5xl lg:text-5xl 2xl:text-8xl font-bold tracking-wide">
+            <div className="bg-[#1F2832] mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12 2xl:mt-16 px-2 py-1 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 xl:px-10 xl:py-5 2xl:px-12 2xl:py-6 rounded-lg w-fit shadow-md">
+              <h2 className="text-white text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold tracking-wide">
                 FLYBOT-<span className="text-cyan-400 font-light">X</span>
               </h2>
             </div>
@@ -48,7 +48,7 @@ const Home = () => {
 
           <Link
             to="/getitnow"
-            className="absolute py-1 bottom-1 sm:bottom-8 2xl:bottom-20 right-0 bg-gradient-to-r from-[#1F2832] to-[#2e3e4f] text-white text-sm sm:text-xl w-30 sm:w-60 sm:py-3 2xl:w-80 2xl:py-8 2xl:text-4xl font-medium shadow-lg hover:scale-105 hover:shadow-xl transition duration-300 ease-in-out text-center flex items-center justify-center rounded"
+            className="absolute py-1 sm:py-2 md:py-3 lg:py-4 xl:py-5 2xl:py-6 bottom-1 sm:bottom-4 md:bottom-6 lg:bottom-8 xl:bottom-10 2xl:bottom-12 right-0 bg-gradient-to-r from-[#1F2832] to-[#2e3e4f] text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl w-20 sm:w-32 md:w-40 lg:w-48 xl:w-56 2xl:w-64 font-medium shadow-lg hover:scale-105 hover:shadow-xl transition duration-300 ease-in-out text-center flex items-center justify-center rounded"
           >
             Get It Now
           </Link>
@@ -56,38 +56,38 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex justify-center py-4 md:py-8 px-4">
-        <div className="bg-gradient-to-r from-[#1C98ED]/80 to-[#1C98ED]/60 flex flex-row justify-center items-center text-center px-3 md:px-8 py-4 md:py-8 gap-2 md:gap-16 w-fit rounded-lg md:rounded-2xl shadow-lg backdrop-blur-sm">
+      <div className="flex justify-center py-2 sm:py-4 md:py-6 lg:py-8 xl:py-10 2xl:py-12 px-4">
+        <div className="bg-gradient-to-r from-[#1C98ED]/80 to-[#1C98ED]/60 flex flex-row justify-center items-center text-center px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3 sm:py-4 md:py-6 lg:py-8 xl:py-10 2xl:py-12 gap-2 sm:gap-4 md:gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 w-fit rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg backdrop-blur-sm">
           {/* Left Block */}
-          <div className="w-fit px-1 md:px-4">
-            <h2 className="text-lg md:text-4xl font-bold text-[#1F2832] mb-0.5 md:mb-2">+ 40m</h2>
-            <p className="text-xs md:text-lg text-[#1F2832] font-medium">Estimated Range</p>
+          <div className="w-fit px-1 sm:px-2 md:px-3 lg:px-4 xl:px-5 2xl:px-6">
+            <h2 className="text-sm sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-[#1F2832] mb-0.5 sm:mb-1 md:mb-2">+ 40m</h2>
+            <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-[#1F2832] font-medium">Estimated Range</p>
           </div>
 
           {/* Divider */}
-          <div className="block w-0.5 h-8 md:h-16 bg-white/60 mx-1 md:mx-4"></div>
+          <div className="block w-0.5 h-6 sm:h-8 md:h-12 lg:h-14 xl:h-16 2xl:h-20 bg-white/60 mx-1 sm:mx-2 md:mx-3 lg:mx-4 xl:mx-5 2xl:mx-6"></div>
 
           {/* Right Block */}
-          <div className="w-fit px-1 md:px-4">
-            <h2 className="text-lg md:text-4xl font-bold text-[#1F2832] mb-0.5 md:mb-2">Upto +7kgs</h2>
-            <p className="text-xs md:text-lg text-[#1F2832] font-medium">of Maximum takeoff weight</p>
+          <div className="w-fit px-1 sm:px-2 md:px-3 lg:px-4 xl:px-5 2xl:px-6">
+            <h2 className="text-sm sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-[#1F2832] mb-0.5 sm:mb-1 md:mb-2">Upto +7kgs</h2>
+            <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-[#1F2832] font-medium">of Maximum takeoff weight</p>
           </div>
         </div>
       </div>
 
 
       <div className="w-full min-h-screen bg-white p-0 m-0">
-        <section className="px-4 md:px-12 lg:px-20 py-6 bg-white text-center">
+        <section className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-4 sm:py-6 md:py-8 lg:py-10 xl:py-12 2xl:py-16 bg-white text-center">
           {/* Heading */}
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 text-center">
             A High Performance Commercial
             <br />
-            <span className="block mt-4">Drone from Teratech</span>
+            <span className="block mt-2 sm:mt-3 md:mt-4">Drone from Teratech</span>
           </h2>
 
 
           {/* Description */}
-          <p className="text-gray-700 max-w-4xl mx-auto text-sm md:text-base leading-relaxed mb-10">
+          <p className="text-gray-700 max-w-4xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed mb-6 sm:mb-8 md:mb-10 lg:mb-12 xl:mb-14 2xl:mb-16">
             A High Performance Commercial Drone and UAV with the airframe Minimum takeoff weight 4 kg and
             Maximum takeoff weight of 7kg ,and is capable of executing rapid aerial surveys across vast
             and difficult terrain whilst maintaining high accuracy and even higher confidence. The
@@ -97,18 +97,18 @@ const Home = () => {
           </p>
 
           {/* Image Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 max-w-5xl mx-auto">
             {/* First Card */}
             <div className="relative overflow-hidden rounded-md shadow-md">
               <img src='/assets/drone.png' alt="Drone Security" className="w-full h-auto object-cover" />
 
               {/* Bottom black gradient shadow */}
-              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 2xl:h-40 bg-gradient-to-t from-black to-transparent"></div>
 
               {/* Text Content */}
-              <div className="absolute inset-0 flex flex-col justify-end text-left p-4">
-                <p className="text-white text-lg font-semibold mb-4">FLYBOT-X FOR</p>
-                <h3 className="text-white text-lg md:text-xl font-bold">SECURITY AND DEFENCE USAGE</h3>
+              <div className="absolute inset-0 flex flex-col justify-end text-left p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 2xl:p-8">
+                <p className="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-semibold mb-2 sm:mb-3 md:mb-4">FLYBOT-X FOR</p>
+                <h3 className="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-bold">SECURITY AND DEFENCE USAGE</h3>
               </div>
             </div>
 
@@ -117,12 +117,12 @@ const Home = () => {
               <img src='/assets/drone.png' alt="Drone Civilian" className="w-full h-auto object-cover" />
 
               {/* Bottom black gradient shadow */}
-              <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 2xl:h-40 bg-gradient-to-t from-black to-transparent"></div>
 
               {/* Text Content */}
-              <div className="absolute inset-0 flex flex-col justify-end text-left p-4">
-                <p className="text-white text-lg font-semibold mb-4">FLYBOT-X FOR</p>
-                <h3 className="text-white text-lg md:text-xl font-bold">CIVILIAN APPLICATIONS</h3>
+              <div className="absolute inset-0 flex flex-col justify-end text-left p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 2xl:p-8">
+                <p className="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-semibold mb-2 sm:mb-3 md:mb-4">FLYBOT-X FOR</p>
+                <h3 className="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-bold">CIVILIAN APPLICATIONS</h3>
               </div>
             </div>
           </div>
@@ -130,12 +130,12 @@ const Home = () => {
         </section>
 
         {/* Application Section */}
-        <section className="px-4 md:px-12 lg:px-20 py-12 bg-white">
-          <h2 className="text-center text-xl md:text-2xl lg:text-3xl font-semibold mb-6 border-b-2 border-black w-fit mx-auto pb-2">
+        <section className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-14 2xl:py-16 bg-white">
+          <h2 className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold mb-4 sm:mb-6 md:mb-8 border-b-2 border-black w-fit mx-auto pb-2">
             APPLICATION
           </h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-10 text-sm md:text-base text-gray-800 mt-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-14 2xl:gap-16 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-gray-800 mt-6 sm:mt-8 md:mt-10 lg:mt-12 xl:mt-14 2xl:mt-16">
             {/* Left Column */}
             <div>
               <h3 className="font-bold mb-2">PRECISION MAPPING</h3>
@@ -175,7 +175,7 @@ const Home = () => {
         </section>
 
         {/* Service and Support Section */}
-        <div className="py-8 bg-white overflow-hidden">
+        <div className="py-4 sm:py-6 md:py-8 lg:py-10 xl:py-12 2xl:py-16 bg-white overflow-hidden">
           <img
             src='/assets/Frame 64.png'
             alt="Banner visual"
