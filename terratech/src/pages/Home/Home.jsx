@@ -15,7 +15,7 @@ const Home = () => {
               className="w-10 sm:w-14 md:w-18 lg:w-22 xl:w-26 2xl:w-32 h-auto object-contain"
             />
           </div>
-          <div className="mt-4 sm:mt-8 md:mt-12 lg:mt-16 xl:mt-20 2xl:mt-24 flex flex-col gap-2 sm:gap-3 md:gap-4">
+          <div className="mt-8 sm:mt-8 md:mt-12 lg:mt-16 xl:mt-20 2xl:mt-24 flex flex-col gap-2 sm:gap-3 md:gap-4">
             <div className="flex flex-col items-start gap-1">
               <h1 className="text-[#1F2832] text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl uppercase tracking-widest">
                 A High Performance
