@@ -62,7 +62,12 @@ const Footer = () => {
 
       {/* Bottom copyright text */}
       <div className="text-center text-sm text-gray-400 border-t border-gray-600 mt-2 py-4 px-4">
-        © 2025 <span className="text-white">Terratech Aerospace</span> Powered by <span className="text-white">Dev Creations and Solutions</span>. All Rights Reserved.
+        <div className="block md:inline">
+          © 2025 <span className="text-white">Terratech Aerospace </span> All Rights Reserved.
+        </div>
+        <div className="mt-2">
+          Powered by<span className="text-white">  Dev Creations and Solutions</span>.
+        </div>
       </div>
     </footer>
 
