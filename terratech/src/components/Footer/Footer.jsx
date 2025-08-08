@@ -66,7 +66,15 @@ const Footer = () => {
           © 2025 <span className="text-white">Terratech Aerospace </span> All Rights Reserved.
         </div>
         <div className="mt-2">
-          Powered by<span className="text-white">  Dev Creations and Solutions</span>.
+          Powered by
+          <a
+            href="https://devcreationsblr.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white cursor-pointer"
+          >
+            {" "}Dev Creations and Solutions
+          </a>.
         </div>
       </div>
     </footer>
