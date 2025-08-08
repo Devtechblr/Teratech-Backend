@@ -10,9 +10,11 @@ const Navbar = () => {
       <nav className="flex items-center px-4 py-2">
         <button
           className="bg-white text-black text-lg px-8 py-1 rounded-[30px] cursor-pointer ml-2 md:ml-16"
+          onClick={() => window.open("https://aryan-dcs.netlify.app", "_blank")}
         >
           Services
         </button>
+
         <div className="hidden md:flex space-x-8 ml-20">
           <Link to="/" className="text-white hover:text-gray-200 transition">Home</Link>
           <Link to="/security" className="text-white">Security and Defence</Link>

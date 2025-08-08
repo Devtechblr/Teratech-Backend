@@ -1,6 +1,16 @@
 import React from 'react'
+import CountUp from 'react-countup';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
+import { motion } from "framer-motion";
 
 const Getitnow = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // animation duration in ms     // only animate once
+    });
+  }, []);
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Image */}
@@ -23,27 +33,46 @@ const Getitnow = () => {
       <div className="max-w-7xl mx-auto px-4 space-y-6">
 
         {/* Top Section - General Specifications */}
-        <div className="bg-white rounded-lg p-6 md:p-8">
 
+
+        <div className="bg-white rounded-lg p-6 md:p-8" >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+
+            {/* Payload Upto */}
             <div className="text-center p-4 bg-gray-100 rounded-lg">
               <div className="text-sm md:text-base text-gray-600 font-medium mb-2">Payload Upto</div>
-              <div className="text-2xl md:text-3xl font-bold text-[#1C98ED]">+2 Kg</div>
+              <div className="text-2xl md:text-3xl font-bold text-[#1C98ED]">
+                +<CountUp start={0} end={2} duration={3} /> Kg
+              </div>
             </div>
+
+            {/* Range Upto */}
             <div className="text-center p-4 bg-gray-100 rounded-lg">
               <div className="text-sm md:text-base text-gray-600 font-medium mb-2">Range Upto</div>
-              <div className="text-2xl md:text-3xl font-bold text-[#1C98ED]">+40 m</div>
+              <div className="text-2xl md:text-3xl font-bold text-[#1C98ED]">
+                +<CountUp start={0} end={40} duration={3} /> m
+              </div>
             </div>
+
+            {/* Flight Time Upto */}
             <div className="text-center p-4 bg-gray-100 rounded-lg">
               <div className="text-sm md:text-base text-gray-600 font-medium mb-2">Flight Time Upto</div>
-              <div className="text-2xl md:text-3xl font-bold text-[#1C98ED]">+60 Mins</div>
+              <div className="text-2xl md:text-3xl font-bold text-[#1C98ED]">
+                +<CountUp start={0} end={60} duration={3} /> Mins
+              </div>
             </div>
+
+            {/* Lithium-Ion Batteries */}
             <div className="text-center p-4 bg-gray-100 rounded-lg">
               <div className="text-sm md:text-base text-gray-600 font-medium mb-2">Lithium-Ion Batteries</div>
-              <div className="text-lg md:text-3xl font-bold text-[#1C98ED]">21,000 mAH</div>
+              <div className="text-lg md:text-3xl font-bold text-[#1C98ED]">
+                <CountUp start={0} end={21000} duration={3} separator="," /> mAH
+              </div>
             </div>
+
           </div>
         </div>
+
 
         {/* Middle Section - Payload Applications */}
         <div className="bg-[#8F5D46] rounded-lg shadow-lg p-6 md:p-8">
@@ -96,7 +125,7 @@ const Getitnow = () => {
         </div>
 
         {/* Bottom Section - Camera Specifications */}
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8" data-aos="fade-up">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
             {/* Optical Camera Specs */}
             <div className="space-y-4">
@@ -115,10 +144,13 @@ const Getitnow = () => {
 
             {/* Camera Gimbal Image */}
             <div className="flex justify-center">
-              <img
-                src='/assets/camera.png'
+              <motion.img
+                src="/assets/camera.png"
                 alt="Camera Gimbal"
                 className="w-32 h-32 md:w-48 md:h-48 lg:w-64 lg:h-64 object-contain"
+                initial={{ opacity: 0, x: 50, scale: 0.8 }}   // starts right + small
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}  // animates to normal
+                transition={{ duration: 1.8, ease: "easeOut" }}
               />
             </div>
 

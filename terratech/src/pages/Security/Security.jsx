@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useNavigate } from 'react-router-dom';
 
-const Security = () => {
+export default function Security() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // animation duration in ms
+    });
+  }, []);
+
   return (
     <div className="bg-white w-full min-h-screen py-10 px-0">
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+
         {/* Left Section: Text */}
         <div className="px-4 md:px-12">
           <h2 className="text-3xl md:text-4xl font-semibold mb-4 tracking-wide">
@@ -12,33 +24,37 @@ const Security = () => {
           <p className="text-lg md:text-xl font-medium mb-8">
             Unmanned aerial Vehicle (UAV) strategies are becoming increasingly critical to successful maritime and overland missions.
           </p>
+
           <div className="space-y-8">
             <div>
               <h3 className="font-bold text-lg md:text-xl mb-2">INTELLIGENCE, SURVEILLANCE & RECONNAISSANCE</h3>
               <p className="text-gray-700 text-base md:text-lg">
-                FLYBOT-X is the perfect Unmanned Aircraft System (UAS) for Intelligence Surveillance & Reconnaissance (ISR) missions, giving coastal or land-based teams the tactical advantage needed to stay one step ahead of escalating threats. Equipped with an EO/IR, ISR and Thermal sensor combination, the FLYBOT X offers to monitor infinitely more area compared to ground-based alternatives.
+                FLYBOT-X is the perfect Unmanned Aircraft System (UAS) for Intelligence Surveillance & Reconnaissance (ISR) missions...
               </p>
             </div>
             <div>
               <h3 className="font-bold text-lg md:text-xl mb-2">BORDER PROTECTION</h3>
               <p className="text-gray-700 text-base md:text-lg">
-                Remote and difficult to access borders present authorities with challenging surveillance scenarios. 60+mins flight times and numerous payload combination options make the FLYBOT-X an invaluable asset for coastal and overland border monitoring operations.
+                Remote and difficult to access borders present authorities with challenging surveillance scenarios...
               </p>
             </div>
             <div>
               <h3 className="font-bold text-lg md:text-xl mb-2">LAW ENFORCEMENT</h3>
               <p className="text-gray-700 text-base md:text-lg">
-                The FLYBOT-X can respond to the enforcement needs of a wide range of land border protection, coastal security, fisheries control, anti-piracy, oil and air pollution and anti smuggling policies. An unmatched small logistical footprint provides easy maintenance, transport, and preparation for takeoff in under fifteen minutes from remote sites near nonpermissive environments.
+                The FLYBOT-X can respond to the enforcement needs of a wide range of land border protection...
               </p>
             </div>
           </div>
         </div>
 
         {/* Right Section: Button + Image */}
-        <div className="w-full flex flex-col items-end pr-0 mr-0">
+        <div className="w-full flex flex-col items-end pr-0 mr-0" data-aos="fade-left">
           {/* Button */}
           <div className="mb-4">
-            <button className="px-16 py-3 bg-[#1C98ED] text-white font-semibold cursor-pointer hover:bg-[#1878b8] transition">
+            <button
+              className="px-16 py-3 bg-[#1C98ED] text-white font-semibold cursor-pointer hover:bg-[#1878b8] transition"
+              onClick={() => navigate("/getitnow")}
+            >
               GET IN TOUCH
             </button>
           </div>
@@ -52,7 +68,7 @@ const Security = () => {
         </div>
       </div>
 
-      {/* Footer UAV Graphic - Bigger & Aligned Left */}
+      {/* Footer UAV Graphic */}
       <div className="w-full mt-6 px-4">
         <img
           src="/assets/FLYBOT-X.png"
@@ -61,7 +77,5 @@ const Security = () => {
         />
       </div>
     </div>
-  )
+  );
 }
-
-export default Security

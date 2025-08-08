@@ -1,7 +1,17 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import CountUp from 'react-countup';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
+
 
 const Home = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // animation duration in ms     // only animate once
+    });
+  }, []);
   return (
     <>
       {/* Logo + Text */}
@@ -16,7 +26,7 @@ const Home = () => {
             />
           </div>
           <div className="mt-10 sm:mt-8 md:mt-12 lg:mt-16 xl:mt-20 2xl:mt-24 flex flex-col gap-2 sm:gap-3 md:gap-4">
-            <div className="flex flex-col items-start gap-1 sm:gap-1">
+            <div className="flex flex-col items-start gap-1 sm:gap-1" >
               <h1 className="text-[#1F2832] text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl uppercase tracking-widest">
                 A High Performance
               </h1>
@@ -56,22 +66,32 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex justify-center py-2 sm:py-4 md:py-6 lg:py-8 xl:py-10 2xl:py-12 px-4">
+      <div className="flex justify-center py-2 sm:py-4 md:py-6 lg:py-8 xl:py-10 2xl:py-12 px-4" >
         <div className="bg-gradient-to-r from-[#1C98ED]/80 to-[#1C98ED]/60 flex flex-row justify-center items-center text-center px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3 sm:py-4 md:py-6 lg:py-8 xl:py-10 2xl:py-12 gap-2 sm:gap-4 md:gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 w-fit rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg backdrop-blur-sm">
           {/* Left Block */}
           <div className="w-fit px-1 sm:px-2 md:px-3 lg:px-4 xl:px-5 2xl:px-6">
-            <h2 className="text-sm sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-[#1F2832] mb-0.5 sm:mb-1 md:mb-2">+ 40m</h2>
-            <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-[#1F2832] font-medium">Estimated Range</p>
+            <h2 className="text-sm sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-[#1F2832] mb-0.5 sm:mb-1 md:mb-2">
+              +<CountUp start={1} end={40} duration={4} />
+            </h2>
+            <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-[#1F2832] font-medium">
+              Estimated Range
+            </p>
           </div>
 
           {/* Divider */}
           <div className="block w-0.5 h-6 sm:h-8 md:h-12 lg:h-14 xl:h-16 2xl:h-20 bg-white/60 mx-1 sm:mx-2 md:mx-3 lg:mx-4 xl:mx-5 2xl:mx-6"></div>
 
           {/* Right Block */}
+
           <div className="w-fit px-1 sm:px-2 md:px-3 lg:px-4 xl:px-5 2xl:px-6">
-            <h2 className="text-sm sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-[#1F2832] mb-0.5 sm:mb-1 md:mb-2">Upto +7kgs</h2>
-            <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-[#1F2832] font-medium">of Maximum takeoff weight</p>
+            <h2 className="text-sm sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-[#1F2832] mb-0.5 sm:mb-1 md:mb-2">
+              Upto +<CountUp start={1} end={7} duration={6} />kgs
+            </h2>
+            <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-[#1F2832] font-medium">
+              of Maximum takeoff weight
+            </p>
           </div>
+
         </div>
       </div>
 
@@ -79,7 +99,7 @@ const Home = () => {
       <div className="w-full min-h-screen bg-white p-0 m-0">
         <section className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-4 sm:py-6 md:py-8 lg:py-10 xl:py-12 2xl:py-16 bg-white text-center">
           {/* Heading */}
-          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 text-center">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 text-center" data-aos="fade-up">
             A High Performance Commercial
             <br />
             <span className="block mt-2 sm:mt-3 md:mt-4">Drone from Teratech</span>
@@ -87,7 +107,7 @@ const Home = () => {
 
 
           {/* Description */}
-          <p className="text-gray-700 max-w-4xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed mb-6 sm:mb-8 md:mb-10 lg:mb-12 xl:mb-14 2xl:mb-16">
+          <p className="text-gray-700 max-w-4xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed mb-6 sm:mb-8 md:mb-10 lg:mb-12 xl:mb-14 2xl:mb-16" data-aos="fade-up">
             A High Performance Commercial Drone and UAV with the airframe Minimum takeoff weight 4 kg and
             Maximum takeoff weight of 7kg ,and is capable of executing rapid aerial surveys across vast
             and difficult terrain whilst maintaining high accuracy and even higher confidence. The
@@ -97,7 +117,7 @@ const Home = () => {
           </p>
 
           {/* Image Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 max-w-5xl mx-auto" data-aos="fade-up">
             {/* First Card */}
             <div className="relative overflow-hidden rounded-md shadow-md">
               <img src='/assets/drone.png' alt="Drone Security" className="w-full h-auto object-cover" />
@@ -130,7 +150,7 @@ const Home = () => {
         </section>
 
         {/* Application Section */}
-        <section className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-14 2xl:py-16 bg-white">
+        <section className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-14 2xl:py-16 bg-white" data-aos="fade-up">
           <h2 className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold mb-4 sm:mb-6 md:mb-8 border-b-2 border-black w-fit mx-auto pb-2">
             APPLICATION
           </h2>
@@ -175,9 +195,9 @@ const Home = () => {
         </section>
 
         {/* Service and Support Section */}
-        <div className="py-4 sm:py-6 md:py-8 lg:py-10 xl:py-12 2xl:py-16 bg-white overflow-hidden">
+        <div className="py-4 sm:py-6 md:py-8 lg:py-10 xl:py-12 2xl:py-16 bg-white overflow-hidden" data-aos="fade-up">
           <img
-            src='/assets/Frame 64.png'
+            src='/Frame 64 (3).png'
             alt="Banner visual"
             className="w-full h-auto"
           />

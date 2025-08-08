@@ -1,6 +1,14 @@
 import React from 'react'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
 
 const About = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // animation duration in ms     // only animate once
+    });
+  }, []);
   return (
     <>
       {/* Top image with CONTACT button */}
@@ -42,13 +50,13 @@ const About = () => {
 
           {/* Text Content in Container */}
           <div className="w-full md:w-1/2 px-4 py-10 md:px-10 z-10">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#000] mb-4 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#000] mb-4 tracking-tight" data-aos="fade-up">
               FLYBOT-X
             </h2>
-            <p className="text-gray-800 text-base md:text-lg font-medium leading-relaxed mb-4">
+            <p className="text-gray-800 text-base md:text-lg font-medium leading-relaxed mb-4" data-aos="fade-up">
               FLYBOT-X is an advanced UAV developed by TerraTech Aerospace, engineered for precision and endurance in mission-critical operations.
             </p>
-            <div className="grid grid-cols-2 gap-3 text-gray-700 text-sm md:text-base font-semibold">
+            <div className="grid grid-cols-2 gap-3 text-gray-700 text-sm md:text-base font-semibold" data-aos="fade-up">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-[#000] rounded-full"></span> Coast Guard Monitoring
               </div>
@@ -66,7 +74,7 @@ const About = () => {
         </div>
       </div>
       {/* Meet Our Team Section */}
-      <div className="w-full flex flex-col items-center mt-8 px-2 sm:px-4">
+      <div className="w-full flex flex-col items-center mt-8 px-2 sm:px-4" data-aos="fade-up">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8">Meet Our Team</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-6xl mx-auto">
           {[1, 2, 3, 4].map((i) => (
@@ -83,7 +91,7 @@ const About = () => {
       </div>
 
       {/* Recognitions Section */}
-      <div className="w-full flex flex-col items-center mt-12 px-8 py-12 sm:px-4">
+      <div className="w-full flex flex-col items-center mt-12 px-8 py-12 sm:px-4" data-aos="fade-up">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8">Recognitions</h2>
         <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-y-8 gap-x-6 w-full max-w-5xl mx-auto items-center justify-center">
           <img src="/assets/adani.png" alt="Adani" className="w-20 sm:w-24 lg:w-28 mx-auto" />

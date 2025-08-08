@@ -1,6 +1,17 @@
 import React from 'react'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Support = () => {
+export default function Support() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // animation duration in ms     // only animate once
+    });
+  }, []);
   return (
     <div className="bg-white w-full min-h-screen py-10 px-0">
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
@@ -21,10 +32,11 @@ const Support = () => {
         </div>
 
         {/* Right Section: Button + Image */}
-        <div className="w-full flex flex-col items-end pr-0 mr-0">
+        <div className="w-full flex flex-col items-end pr-0 mr-0" data-aos="fade-left">
           {/* Button */}
           <div className="mb-4">
-            <button className="px-16 py-3 bg-[#1C98ED] text-white font-semibold cursor-pointer hover:bg-[#1878b8] transition">
+            <button className="px-16 py-3 bg-[#1C98ED] text-white font-semibold cursor-pointer hover:bg-[#1878b8] transition"
+              onClick={() => navigate("/getitnow")}>
               GET IN TOUCH
             </button>
           </div>
@@ -39,7 +51,7 @@ const Support = () => {
       </div>
 
       {/* Footer UAV Graphic - Bigger & Aligned Left */}
-      <div className="w-full -mt-12 px-4">
+      <div className="w-full -mt-12 px-4" data-aos="fade-right">
         <img
           src="/assets/FLYBOT-X.png"
           alt="Decorative Footer UAV"
@@ -50,4 +62,3 @@ const Support = () => {
   )
 }
 
-export default Support
