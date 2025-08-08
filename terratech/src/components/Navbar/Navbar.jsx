@@ -38,13 +38,44 @@ const Navbar = () => {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden px-4 pb-3">
-          <Link to="/" className="block text-white py-2">Home</Link>
-          <Link to="/security" className="block text-white py-2">Security and Defence</Link>
-          <Link to="/civilian" className="block text-white py-2">Civilian Application</Link>
-          <Link to="/support" className="block text-white py-2">Support</Link>
-          <Link to="/about" className="block text-white py-2">About Us</Link>
+          <Link
+            to="/"
+            className="block text-white py-2"
+            onClick={() => setMenuOpen(false)}
+          >
+            Home
+          </Link>
+          <Link
+            to="/security"
+            className="block text-white py-2"
+            onClick={() => setMenuOpen(false)}
+          >
+            Security and Defence
+          </Link>
+          <Link
+            to="/civilian"
+            className="block text-white py-2"
+            onClick={() => setMenuOpen(false)}
+          >
+            Civilian Application
+          </Link>
+          <Link
+            to="/support"
+            className="block text-white py-2"
+            onClick={() => setMenuOpen(false)}
+          >
+            Support
+          </Link>
+          <Link
+            to="/about"
+            className="block text-white py-2"
+            onClick={() => setMenuOpen(false)}
+          >
+            About Us
+          </Link>
         </div>
       )}
+
     </div>
   );
 }
