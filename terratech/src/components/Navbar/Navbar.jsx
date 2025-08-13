@@ -18,6 +18,7 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-8 ml-20">
           <Link to="/" className="text-white hover:text-gray-200 transition">Home</Link>
           <Link to="/security" className="text-white">Security and Defence</Link>
+          <Link to="/products" className="text-white">Products</Link>
           <Link to="/civilian" className="text-white">Civilian Application</Link>
           <Link to="/support" className="text-white">Support</Link>
           <Link to="/about" className="text-white">About Us</Link>
@@ -53,6 +54,14 @@ const Navbar = () => {
             Security and Defence
           </Link>
           <Link
+            to="/products"
+            className="block text-white py-2"
+            onClick={() => setMenuOpen(false)}
+          >
+            Products
+          </Link>
+
+          <Link
             to="/civilian"
             className="block text-white py-2"
             onClick={() => setMenuOpen(false)}
@@ -73,6 +82,7 @@ const Navbar = () => {
           >
             About Us
           </Link>
+
         </div>
       )}
 

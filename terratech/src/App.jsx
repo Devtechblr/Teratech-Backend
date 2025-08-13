@@ -6,6 +6,9 @@ import Contact from './pages/Contact/Contact'
 import Security from './pages/Security/Security'
 import Support from './pages/Support/Support'
 import Civilian from './pages/Civilian/Civilian'
+import AdminLogin from './pages/Login/Login'
+import Dashboard from './pages/Dashboard/Dashboard'
+import ProductListing from './pages/ProductListing/ProductListing'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Topnav from './components/Topnav/Topnav'
 import Navbar from './components/Navbar/Navbar'
@@ -21,6 +24,7 @@ const AppContent = () => {
       <Topnav />
       <Navbar />
       {isGetItNowPage && <Nav />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -29,6 +33,11 @@ const AppContent = () => {
         <Route path="/security" element={<Security />} />
         <Route path="/support" element={<Support />} />
         <Route path="/civilian" element={<Civilian />} />
+
+        {/* New Auth Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/products" element={<ProductListing />} />
       </Routes>
       <Footer />
     </>

@@ -74,39 +74,7 @@ const About = () => {
         </div>
       </div>
       {/* Meet Our Team Section */}
-      <div className="w-full flex flex-col items-center mt-8 px-2 sm:px-4" data-aos="fade-up">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8">Meet Our Team</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-6xl mx-auto">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="flex flex-col items-center">
-              <img src='/assets/Frame 15.png' alt="Team Member" className="w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full object-cover mb-4" />
-              <div className="text-lg font-bold text-center">Your Name</div>
-              <div className="text-base text-center mb-2">subtitle</div>
-              <div className="text-sm text-center text-gray-700 max-w-[220px]">
-                Our UAVs have been designed to be able to handle all terrains and temperature conditions.
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Recognitions Section */}
-      <div className="w-full flex flex-col items-center mt-12 px-8 py-12 sm:px-4" data-aos="fade-up">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8">Recognitions</h2>
-        <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-y-8 gap-x-6 w-full max-w-5xl mx-auto items-center justify-center">
-          <img src="/assets/adani.png" alt="Adani" className="w-20 sm:w-24 lg:w-28 mx-auto" />
-          <img src="/assets/NHAI.png" alt="NHAI" className="w-20 sm:w-24 lg:w-28 mx-auto" />
-          <img src="/assets/UP-removebg-preview.png" alt="UP Gov" className="w-20 sm:w-24 lg:w-28 mx-auto" />
-          <img src="/assets/lingayat.png" alt="Police" className="w-20 sm:w-24 lg:w-28 mx-auto" />
-          <img src="/assets/4b65d1139efdffaf9fc23d2c1b60890c68e3c9e9.jpg" alt="IIT" className="w-20 sm:w-24 lg:w-28 mx-auto" />
-          <img src="/assets/tngis.png" alt="TNGIS" className="w-20 sm:w-24 lg:w-28 mx-auto" />
-          <img src="/assets/Krishna+Bhagya+Jala+Nigam+Limited+Tenders.png" alt="Water" className="w-20 sm:w-24 lg:w-28 mx-auto" />
-          <img src="/assets/661b68dcc19c06526fc2c8524964974b830fa870.png" alt="Karnataka" className="col-span-1 sm:col-span-2 lg:col-span-2 w-18 sm:w-26 lg:w-28 xl:w-30 mx-auto" />
-          <img src="/assets/namma-metro-seeklogo 1.png" alt="Metro" className="col-span-1 sm:col-span-2 lg:col-span-2 w-36 sm:w-48 lg:w-64 xl:w-72 mx-auto" />
-          <img src="/assets/logo (1).png" alt="Survey of India" className="col-span-3 sm:col-span-1 lg:col-span-3 w-40 sm:w-56 lg:w-72 xl:w-80 mx-auto" />
-        </div>
-      </div>
-
     </>
   )
 }
