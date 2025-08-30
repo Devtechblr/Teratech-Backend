@@ -1,6 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    mobile: '',
+    city: '',
+    pincode: '',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const emailBody = `
+First Name: ${formData.firstName}
+Last Name: ${formData.lastName}
+Email: ${formData.email}
+Mobile: ${formData.mobile}
+City: ${formData.city}
+Pincode: ${formData.pincode}
+Message: ${formData.message}
+    `.trim();
+
+    const mailtoLink = `mailto:contact@terratech.com?subject=Contact Form Submission&body=${encodeURIComponent(emailBody)}`;
+    window.location.href = mailtoLink;
+  };
+
   return (
     <div className="bg-white flex flex-col min-h-screen">
       <div className="flex flex-col md:flex-row w-full max-w-full lg:max-w-[1440px] mx-auto shadow-xl overflow-hidden flex-1">
@@ -35,43 +69,102 @@ const Contact = () => {
           <h3 className="text-white text-xl sm:text-2xl lg:text-3xl mb-2 md:mb-3 lg:mb-4 tracking-wide">
             DROP US A LINE
           </h3>
-          <form className="space-y-8 flex flex-col justify-between">
+          <form onSubmit={handleSubmit} className="space-y-8 flex flex-col justify-between">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-white text-sm mb-1 font-bold">First name</label>
-                <input type="text" placeholder="abc" className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base" />
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  placeholder="abc"
+                  className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base"
+                  required
+                />
               </div>
               <div>
                 <label className="block text-white text-sm mb-1 font-bold">Last name</label>
-                <input type="text" placeholder="xyz" className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base" />
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  placeholder="xyz"
+                  className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base"
+                  required
+                />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-white text-sm mb-1 font-bold">Email</label>
-                <input type="email" placeholder="abc@gmail.com" className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base" />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="abc@gmail.com"
+                  className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base"
+                  required
+                />
               </div>
               <div>
                 <label className="block text-white text-sm mb-1 font-bold">Mobile Number</label>
-                <input type="text" placeholder="+91 1234567890" className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base" />
+                <input
+                  type="tel"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  placeholder="+91 1234567890"
+                  className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base"
+                  required
+                />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-white text-sm mb-1 font-bold">City</label>
-                <input type="text" placeholder="abc" className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base" />
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  placeholder="abc"
+                  className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base"
+                  required
+                />
               </div>
               <div>
                 <label className="block text-white text-sm mb-1 font-bold">Pincode</label>
-                <input type="text" placeholder="560058" className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base" />
+                <input
+                  type="text"
+                  name="pincode"
+                  value={formData.pincode}
+                  onChange={handleChange}
+                  placeholder="560058"
+                  className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base"
+                  required
+                />
               </div>
             </div>
             <div>
               <label className="block text-white text-sm mb-1 font-bold">Message Us</label>
-              <input type="text" placeholder="Drop your message here" className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base" />
+              <input
+                type="text"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Drop your message here"
+                className="w-full bg-transparent border-b-2 border-white text-white/70 placeholder-white/50 focus:outline-none py-2 text-sm md:text-base"
+                required
+              />
             </div>
             <div className="flex justify-end mt-4">
-              <button type="submit" className="bg-[#23272A] text-white font-semibold px-6 md:px-10 py-2 md:py-3 text-base md:text-lg tracking-wide shadow">
+              <button
+                type="submit"
+                className="bg-[#23272A] text-white font-semibold px-6 md:px-10 py-2 md:py-3 text-base md:text-lg tracking-wide shadow hover:bg-[#2c3235] transition-colors"
+              >
                 SEND
               </button>
             </div>

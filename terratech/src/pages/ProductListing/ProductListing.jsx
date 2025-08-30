@@ -27,7 +27,7 @@ export default function ProductListing() {
                     display: "grid",
                     gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
                     gap: "20px",
-                    maxWidth: "1200px",
+                    maxWidth: "30%",
                     margin: "0 auto"
                 }}
             >
@@ -51,12 +51,16 @@ export default function ProductListing() {
                         }}
                     >
                         <img
-                            src={p.image_url}
+                            src={p.image_data || '/favicon-removebg-preview.png'}
                             alt={p.name}
                             style={{
                                 width: "100%",
                                 height: "200px",
                                 objectFit: "cover"
+                            }}
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = '/favicon-removebg-preview.png';
                             }}
                         />
                         <div style={{ padding: "18px" }}>

@@ -4,14 +4,15 @@ import axios from "axios";
 export default function Dashboard() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState("success"); // success or error
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [deleting, setDeleting] = useState(null); // Store ID of product being deleted
+    const [wordCount, setWordCount] = useState(0);
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
 
     // Check if logged in & load products
     useEffect(() => {
@@ -40,19 +41,107 @@ export default function Dashboard() {
             });
     };
 
+    const handleDescriptionChange = (e) => {
+        const text = e.target.value;
+        if (text === '') {
+            setDescription('');
+            setWordCount(0);
+            return;
+        }
+
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        if (words <= 200) {
+            setDescription(text);
+            setWordCount(words);
+        }
+    };
+
+    const compressImage = (base64String, maxWidth = 800) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.src = base64String;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                // Calculate new dimensions
+                let width = img.width;
+                let height = img.height;
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                // Draw and compress
+                ctx.drawImage(img, 0, 0, width, height);
+                resolve(canvas.toDataURL('image/jpeg', 0.7));
+            };
+        });
+    };
+
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 5242880) { // 5MB limit
+                setMessage("Image file is too large. Maximum size is 5MB.");
+                setMessageType("error");
+                return;
+            }
+
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!validTypes.includes(file.type)) {
+                setMessage("Please upload a valid image file (JPEG, PNG, or GIF).");
+                setMessageType("error");
+                return;
+            }
+
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = async () => {
+                try {
+                    const compressedImage = await compressImage(reader.result);
+                    setImagePreview(compressedImage);
+                    setMessage("");
+                } catch (error) {
+                    setMessage("Error processing image.");
+                    setMessageType("error");
+                }
+            };
+            reader.onerror = () => {
+                setMessage("Error reading file.");
+                setMessageType("error");
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     const addProduct = async (e) => {
         e.preventDefault();
+        if (!name.trim()) {
+            setMessage("Product name is required");
+            setMessageType("error");
+            return;
+        }
+
+        if (wordCount > 200) {
+            setMessage("Description exceeds 200 words limit");
+            setMessageType("error");
+            return;
+        }
+
         setSubmitting(true);
         setMessage("");
-        
+
         try {
             const res = await axios.post(
                 "http://localhost:5000/api/products",
                 {
-                    name,
-                    description,
-                    price: parseFloat(price),
-                    image_url: imageUrl,
+                    name: name.trim(),
+                    description: description.trim(),
+                    image_data: imagePreview
                 },
                 { withCredentials: true }
             );
@@ -60,8 +149,9 @@ export default function Dashboard() {
             setMessageType("success");
             setName("");
             setDescription("");
-            setPrice("");
-            setImageUrl("");
+            setImageFile(null);
+            setImagePreview(null);
+            setWordCount(0);
             fetchProducts();
         } catch (err) {
             setMessage(err.response?.data?.message || "Error adding product");
@@ -73,10 +163,10 @@ export default function Dashboard() {
 
     const deleteProduct = (id) => {
         if (!window.confirm("Are you sure you want to delete this product?")) return;
-        
+
         setDeleting(id);
         setMessage("");
-        
+
         axios
             .delete(`http://localhost:5000/api/products/${id}`, { withCredentials: true })
             .then(() => {
@@ -92,7 +182,7 @@ export default function Dashboard() {
                 setDeleting(null);
             });
     };
-    
+
     const handleLogout = () => {
         axios
             .post("http://localhost:5000/admin/logout", {}, { withCredentials: true })
@@ -111,16 +201,16 @@ export default function Dashboard() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center">
-                        <img 
-                            src="/favicon-removebg-preview.png" 
-                            alt="TerraTech Logo" 
+                        <img
+                            src="/favicon-removebg-preview.png"
+                            alt="TerraTech Logo"
                             className="h-10 w-auto mr-4"
                         />
                         <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
                     </div>
                     <div className="flex space-x-4">
-                        <a 
-                            href="/products" 
+                        <a
+                            href="/products"
                             className="inline-flex items-center px-4 py-2 bg-blue-100 border border-blue-300 rounded-md font-medium text-blue-700 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -129,7 +219,7 @@ export default function Dashboard() {
                             </svg>
                             View Products Page
                         </a>
-                        <button 
+                        <button
                             onClick={handleLogout}
                             className="inline-flex items-center px-4 py-2 bg-gray-100 border border-gray-300 rounded-md font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
                         >
@@ -170,42 +260,46 @@ export default function Dashboard() {
                                 required
                             />
                         </div>
-                        
+
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Price ($)</label>
-                            <input
-                                value={price}
-                                onChange={(e) => setPrice(e.target.value)}
-                                placeholder="0.00"
-                                type="number"
-                                step="0.01"
-                                min="0"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                required
-                            />
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
+                            <div className="flex flex-col space-y-2">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                />
+                                {imagePreview && (
+                                    <div className="mt-2">
+                                        <img
+                                            src={imagePreview}
+                                            alt="Preview"
+                                            className="h-32 w-auto object-contain"
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                        
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
-                            <input
-                                value={imageUrl}
-                                onChange={(e) => setImageUrl(e.target.value)}
-                                placeholder="https://example.com/image.jpg"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            />
-                        </div>
-                        
+
                         <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Description ({wordCount}/200 words)
+                            </label>
                             <textarea
                                 value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                placeholder="Enter product description"
+                                onChange={handleDescriptionChange}
+                                placeholder="Enter product description (max 200 words)"
                                 rows="4"
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             ></textarea>
+                            {wordCount > 200 && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    Description exceeds 200 words limit
+                                </p>
+                            )}
                         </div>
-                        
+
                         <div className="md:col-span-2">
                             <button
                                 type="submit"
@@ -228,7 +322,7 @@ export default function Dashboard() {
                 {/* Products List */}
                 <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
                     <h2 className="text-xl font-semibold mb-6 text-gray-800 border-b pb-3">Existing Products</h2>
-                    
+
                     {loading ? (
                         <div className="flex justify-center items-center h-64">
                             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
@@ -249,9 +343,9 @@ export default function Dashboard() {
                                     className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow duration-300"
                                 >
                                     <div className="h-48 bg-gray-200 relative">
-                                        {product.image_url ? (
+                                        {product.image_data ? (
                                             <img
-                                                src={product.image_url}
+                                                src={product.image_data}
                                                 alt={product.name}
                                                 className="w-full h-full object-cover"
                                                 onError={(e) => {
@@ -261,20 +355,19 @@ export default function Dashboard() {
                                             />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                                                <img 
-                                                    src="/favicon-removebg-preview.png" 
-                                                    alt="No image" 
+                                                <img
+                                                    src="/favicon-removebg-preview.png"
+                                                    alt="No image"
                                                     className="h-20 w-auto opacity-50"
                                                 />
                                             </div>
                                         )}
                                     </div>
-                                    
+
                                     <div className="p-5">
                                         <h3 className="font-semibold text-lg text-gray-800 mb-2">{product.name}</h3>
                                         <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.description}</p>
                                         <div className="flex justify-between items-center">
-                                            <p className="font-bold text-blue-600">${parseFloat(product.price).toFixed(2)}</p>
                                             <button
                                                 onClick={() => deleteProduct(product.id)}
                                                 disabled={deleting === product.id}
