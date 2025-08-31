@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Update MySQL configuration to handle large packets
+// Update MySQL configuration to use environment variables
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -18,9 +18,7 @@ const db = mysql.createConnection({
   database: process.env.DB_DATABASE,
   charset: process.env.DB_CHARSET,
   ssl: {
-    ca: fs.readFileSync(
-      "C:\\Users\\yoges\\OneDrive\\Desktop\\TerraTech - Copy\\backend\\isrgrootx1.pem"
-    ), // 👈 Path to downloaded CA cert
+    ca: Buffer.from(process.env.SSL_CA, "base64").toString("utf8"),
   },
   maxAllowedPacket: 16777216, // 16MB
 });
