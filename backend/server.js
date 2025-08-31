@@ -31,28 +31,30 @@ db.connect((err) => {
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
+// CORS for frontend
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // frontend URL
+    origin: "http://localhost:5173", // your frontend
     credentials: true,
   })
 );
 
+// Session config
 app.use(
   session({
     secret: "super-secret-key",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // use false for localhost (http)
+      secure: false, // set true in production with HTTPS
       httpOnly: true,
-      sameSite: "lax", // or "none" + secure: true in production
+      sameSite: "lax", // change to "none" + secure:true in production
       maxAge: 24 * 60 * 60 * 1000,
     },
   })
 );
 
-// Helper: auth middleware
+// Auth middleware
 function isAuthenticated(req, res, next) {
   if (req.session.admin) return next();
   res.status(401).json({ success: false, message: "Unauthorized" });
@@ -68,24 +70,24 @@ app.post("/admin/login", (req, res) => {
       if (err) return res.status(500).json({ message: "Server error" });
       if (results.length > 0) {
         req.session.admin = { email };
-        res.json({ success: true, message: "Login successful" });
-      } else {
-        res
-          .status(401)
-          .json({ success: false, message: "Invalid credentials" });
+        return res.json({ success: true, message: "Login successful" });
       }
+      res.status(401).json({ success: false, message: "Invalid credentials" });
     }
   );
 });
 
 // Admin logout
 app.post("/admin/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.json({ success: true, message: "Logged out" });
-  });
+  req.session.destroy(() => res.json({ success: true, message: "Logged out" }));
 });
 
-// Public products
+// Dashboard check
+app.get("/dashboard", isAuthenticated, (req, res) => {
+  res.json({ success: true, admin: req.session.admin });
+});
+
+// Products routes
 app.get("/api/products", (req, res) => {
   db.query("SELECT * FROM products", (err, results) => {
     if (err)
@@ -94,7 +96,6 @@ app.get("/api/products", (req, res) => {
   });
 });
 
-// Add product (protected)
 app.post("/api/products", isAuthenticated, (req, res) => {
   const { name, description, image_data } = req.body;
   if (!name)
@@ -125,7 +126,6 @@ app.post("/api/products", isAuthenticated, (req, res) => {
   );
 });
 
-// Delete product (protected)
 app.delete("/api/products/:id", isAuthenticated, (req, res) => {
   const { id } = req.params;
   db.query("DELETE FROM products WHERE id = ?", [id], (err) => {
