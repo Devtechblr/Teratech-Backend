@@ -2,14 +2,13 @@ import express from "express";
 import cors from "cors";
 import mysql from "mysql2";
 import session from "express-session";
-import axios from "axios";
-import fs from "fs";
 import dotenv from "dotenv";
 dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Update MySQL configuration to use environment variables
+// MySQL connection
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -17,86 +16,48 @@ const db = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   charset: process.env.DB_CHARSET,
-  ssl: {
-    ca: Buffer.from(process.env.SSL_CA, "base64").toString("utf8"),
-  },
-  maxAllowedPacket: 16777216, // 16MB
+  ssl: process.env.SSL_CA
+    ? { ca: Buffer.from(process.env.SSL_CA, "base64").toString("utf8") }
+    : undefined,
+  multipleStatements: true,
 });
 
-// Update middleware configuration with increased limits
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+db.connect((err) => {
+  if (err) return console.error("MySQL connection error:", err);
+  console.log("✅ Connected to MySQL");
+});
 
-// Add these lines before other middleware
+// Middleware
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
-// Sessions
+app.use(
+  cors({
+    origin: ["http://localhost:5173"], // frontend URL
+    credentials: true,
+  })
+);
+
 app.use(
   session({
     secret: "super-secret-key",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     cookie: {
-      secure: false, // set to true in production with HTTPS
-      maxAge: 24 * 60 * 60 * 1000,
+      secure: false, // true for HTTPS
       httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
     },
   })
 );
 
-db.connect((err) => {
-  if (err) {
-    console.error("MySQL connection error:", err);
-    return;
-  }
-  console.log("✅ Connected to MySQL");
-
-  db.query(`
-    CREATE TABLE IF NOT EXISTS admins (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      email VARCHAR(255) NOT NULL UNIQUE,
-      password VARCHAR(255) NOT NULL
-    )
-  `);
-
-  db.query(`
-    CREATE TABLE IF NOT EXISTS products (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      description TEXT,
-      image_data LONGTEXT,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
-
-  db.query(
-    `
-      INSERT INTO admins (email, password)
-      SELECT 'admin@terratech.com', 'admin123'
-      WHERE NOT EXISTS (SELECT * FROM admins WHERE email = 'admin@terratech.com')
-    `,
-    (err) => {
-      if (!err) console.log("✅ Default admin ready");
-    }
-  );
-});
-
-// Middleware to protect routes
+// Helper: auth middleware
 function isAuthenticated(req, res, next) {
-  if (req.session.admin) {
-    return next();
-  }
+  if (req.session.admin) return next();
   res.status(401).json({ success: false, message: "Unauthorized" });
 }
 
-// POST: Admin login
+// Admin login
 app.post("/admin/login", (req, res) => {
   const { email, password } = req.body;
   db.query(
@@ -104,148 +65,51 @@ app.post("/admin/login", (req, res) => {
     [email, password],
     (err, results) => {
       if (err) return res.status(500).json({ message: "Server error" });
-
       if (results.length > 0) {
         req.session.admin = { email };
         res.json({ success: true, message: "Login successful" });
       } else {
         res
           .status(401)
-          .json({ success: false, message: "Invalid email or password" });
+          .json({ success: false, message: "Invalid credentials" });
       }
     }
   );
 });
 
-// GET: Admin dashboard (protected)
-app.get("/admin/dashboard", isAuthenticated, (req, res) => {
-  res.json({
-    success: true,
-    message: "Authenticated",
-    user: req.session.admin,
-  });
-});
-
-// Public products route
-app.get("/api/products", (req, res) => {
-  db.query("SELECT * FROM products", (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).json({ success: false, message: "Server error" });
-    }
-    res.json({ success: true, products: results });
-  });
-});
-
-// Helper function to count words
-function countWords(str) {
-  return str.trim().split(/\s+/).length;
-}
-
-// Protected add product with word limit
-app.post("/api/products", isAuthenticated, (req, res) => {
-  const { name, description, image_data } = req.body;
-  if (!name) {
-    return res.status(400).json({
-      success: false,
-      message: "Product name is required",
-    });
-  }
-
-  if (description && countWords(description) > 200) {
-    return res.status(400).json({
-      success: false,
-      message: "Description must not exceed 200 words",
-      wordsCount: countWords(description),
-      wordsRemaining: 200 - countWords(description),
-    });
-  }
-
-  db.query(
-    "INSERT INTO products (name, description, image_data) VALUES (?, ?, ?)",
-    [name, description, image_data],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-
-        return res
-          .status(500)
-          .json({ success: false, message: "Server error" });
-      }
-      res.json({
-        success: true,
-        message: "Product added successfully",
-        product_id: result.insertId,
-        wordsCount: description ? countWords(description) : 0,
-        wordsRemaining: description ? 200 - countWords(description) : 200,
-      });
-    }
-  );
-});
-
-// Protected delete product
-app.delete("/api/products/:id", isAuthenticated, (req, res) => {
-  const productId = req.params.id;
-  db.query("DELETE FROM products WHERE id = ?", [productId], (err) => {
-    if (err)
-      return res.status(500).json({ success: false, message: "Server error" });
-    res.json({ success: true, message: "Product deleted successfully" });
-  });
-});
-
-// Logout
+// Admin logout
 app.post("/admin/logout", (req, res) => {
   req.session.destroy(() => {
     res.json({ success: true, message: "Logged out" });
   });
 });
 
-// Utility function to convert image URL to base64
-async function convertImageToBase64(imageUrl) {
-  try {
-    const response = await axios.get(imageUrl, {
-      responseType: "arraybuffer",
-    });
-    const buffer = Buffer.from(response.data, "binary");
-    const base64String = buffer.toString("base64");
-    const mimeType = response.headers["content-type"];
-    return `data:${mimeType};base64,${base64String}`;
-  } catch (error) {
-    console.error("Error converting image:", error);
-    return null;
-  }
-}
-
-// New endpoint to convert URL to base64
-app.post("/api/convert-image", isAuthenticated, async (req, res) => {
-  const { imageUrl } = req.body;
-  if (!imageUrl) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Image URL is required" });
-  }
-
-  try {
-    const base64Data = await convertImageToBase64(imageUrl);
-    if (!base64Data) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Failed to convert image" });
-    }
-    res.json({ success: true, base64Data });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Server error" });
-  }
+// Public products
+app.get("/api/products", (req, res) => {
+  db.query("SELECT * FROM products", (err, results) => {
+    if (err)
+      return res.status(500).json({ success: false, message: "Server error" });
+    res.json({ success: true, products: results });
+  });
 });
 
-// Update existing product with base64 image
-app.put("/api/products/:id/update-image", isAuthenticated, async (req, res) => {
-  const { id } = req.params;
-  const { image_data } = req.body;
+// Add product (protected)
+app.post("/api/products", isAuthenticated, (req, res) => {
+  const { name, description, image_data } = req.body;
+  if (!name)
+    return res
+      .status(400)
+      .json({ success: false, message: "Product name required" });
+
+  const wordCount = description ? description.trim().split(/\s+/).length : 0;
+  if (wordCount > 200)
+    return res
+      .status(400)
+      .json({ success: false, message: "Description exceeds 200 words" });
 
   db.query(
-    "UPDATE products SET image_data = ? WHERE id = ?",
-    [image_data, id],
+    "INSERT INTO products (name, description, image_data) VALUES (?, ?, ?)",
+    [name, description, image_data],
     (err, result) => {
       if (err)
         return res
@@ -253,13 +117,24 @@ app.put("/api/products/:id/update-image", isAuthenticated, async (req, res) => {
           .json({ success: false, message: "Server error" });
       res.json({
         success: true,
-        message: "Product image updated successfully",
+        message: "Product added successfully",
+        product_id: result.insertId,
       });
     }
   );
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+// Delete product (protected)
+app.delete("/api/products/:id", isAuthenticated, (req, res) => {
+  const { id } = req.params;
+  db.query("DELETE FROM products WHERE id = ?", [id], (err) => {
+    if (err)
+      return res.status(500).json({ success: false, message: "Server error" });
+    res.json({ success: true, message: "Product deleted successfully" });
+  });
 });
+
+// Start server
+app.listen(PORT, () =>
+  console.log(`🚀 Server running on http://localhost:${PORT}`)
+);
