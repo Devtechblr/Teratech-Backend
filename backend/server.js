@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 // MySQL connection
 const db = mysql.createConnection({
@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 // CORS for frontend
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://terratechdb.onrender.com"], // your frontend
+    origin: ["http://localhost:5173"], // your frontend
     credentials: true,
   })
 );
