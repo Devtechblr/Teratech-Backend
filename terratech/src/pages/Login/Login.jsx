@@ -11,10 +11,10 @@ export default function Login() {
         e.preventDefault();
         setLoading(true);
         setError("");
-        
+
         try {
             const res = await axios.post(
-                "http://localhost:5000/admin/login",
+                "https://terratechdb.onrender.com/admin/login",
                 { email, password },
                 { withCredentials: true }
             );
@@ -31,17 +31,17 @@ export default function Login() {
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
             <div className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg border border-gray-200">
                 <div className="flex justify-center mb-6">
-                    <img 
-                        src="/favicon-removebg-preview.png" 
-                        alt="TerraTech Logo" 
+                    <img
+                        src="/favicon-removebg-preview.png"
+                        alt="TerraTech Logo"
                         className="h-16 w-auto"
                     />
                 </div>
-                
+
                 <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
                     TerraTech Admin Login
                 </h1>
-                
+
                 {error && (
                     <div className="mb-6 p-4 text-sm text-red-700 bg-red-100 rounded-lg border border-red-200 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -50,7 +50,7 @@ export default function Login() {
                         {error}
                     </div>
                 )}
-                
+
                 <form onSubmit={handleLogin} className="space-y-6">
                     <div>
                         <label className="block mb-2 text-gray-700 font-medium">
@@ -73,7 +73,7 @@ export default function Login() {
                             />
                         </div>
                     </div>
-                    
+
                     <div>
                         <label className="block mb-2 text-gray-700 font-medium">
                             Password
@@ -94,7 +94,7 @@ export default function Login() {
                             />
                         </div>
                     </div>
-                    
+
                     <button
                         type="submit"
                         disabled={loading}
@@ -110,7 +110,7 @@ export default function Login() {
                         )}
                     </button>
                 </form>
-                
+
                 <div className="mt-8 pt-6 border-t border-gray-200">
                     <p className="text-center text-sm text-gray-500">
                         &copy; {new Date().getFullYear()} TerraTech Admin Panel
