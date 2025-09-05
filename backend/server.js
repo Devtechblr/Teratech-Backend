@@ -43,10 +43,14 @@ app.use(
       "http://localhost:5173",
       "https://terratech-dcs.netlify.app",
       "https://terratechaerospace.com",
-    ], // your frontend
+      "https://www.terratechaerospace.com",
+    ],
     credentials: true,
   })
 );
+
+// Handle preflight
+app.options("*", cors());
 
 // Session config
 app.use(
