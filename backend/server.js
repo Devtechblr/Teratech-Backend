@@ -17,9 +17,7 @@ const db = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   charset: process.env.DB_CHARSET,
-  ssl: {
-    ca: fs.readFileSync("./isrgrootx1.pem"), // 👈 Path to downloaded CA cert
-  },
+  ssl: true,
   maxAllowedPacket: 16777216, // 16MB
 });
 

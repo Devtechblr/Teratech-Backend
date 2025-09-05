@@ -6,7 +6,7 @@ export default function ProductListing() {
 
     useEffect(() => {
         axios
-            .get("https://terratechdb.onrender.com/api/products")
+            .get("https://api.terratechaerospace.com/api/products")
             .then(res => {
                 if (res.data.success) {
                     setProducts(res.data.products);

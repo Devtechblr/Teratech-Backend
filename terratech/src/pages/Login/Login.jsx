@@ -14,7 +14,7 @@ export default function Login() {
 
         try {
             const res = await axios.post(
-                "https://terratechdb.onrender.com/admin/login",
+                "https://api.terratechaerospace.com/admin/login",
                 { email, password },
                 { withCredentials: true }
             );
