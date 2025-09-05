@@ -3,6 +3,7 @@ import cors from "cors";
 import mysql from "mysql2";
 import session from "express-session";
 import dotenv from "dotenv";
+import fs from "fs";
 dotenv.config();
 
 const app = express();
@@ -16,10 +17,10 @@ const db = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   charset: process.env.DB_CHARSET,
-  ssl: process.env.SSL_CA
-    ? { ca: Buffer.from(process.env.SSL_CA, "base64").toString("utf8") }
-    : undefined,
-  multipleStatements: true,
+  ssl: {
+    ca: fs.readFileSync("./isrgrootx1.pem"), // 👈 Path to downloaded CA cert
+  },
+  maxAllowedPacket: 16777216, // 16MB
 });
 
 db.connect((err) => {
