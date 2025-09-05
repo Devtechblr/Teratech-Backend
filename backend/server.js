@@ -39,7 +39,11 @@ app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 // CORS for frontend
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // your frontend
+    origin: [
+      "http://localhost:5173",
+      "https://terratech-dcs.netlify.app",
+      "https://terratechaerospace.com",
+    ], // your frontend
     credentials: true,
   })
 );
