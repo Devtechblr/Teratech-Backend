@@ -19,9 +19,8 @@ const db = mysql.createConnection({
   database: process.env.DB_DATABASE,
   charset: process.env.DB_CHARSET,
   ssl: {
-    ca: fs.readFileSync("/app/isrgrootx1.pem"), // 👈 Path to downloaded CA cert
+    ca: fs.readFileSync("./isrgrootx1.pem"), // 👈 Path to downloaded CA cert
   },
-  maxAllowedPacket: 16777216, // 16MB
 });
 
 db.connect((err) => {
@@ -48,9 +47,6 @@ app.use(
     credentials: true,
   })
 );
-
-// Handle preflight
-app.options("*", cors());
 
 // Session config
 app.use(
