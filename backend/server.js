@@ -4,13 +4,14 @@ import mysql from "mysql2";
 import session from "express-session";
 import dotenv from "dotenv";
 import fs from "fs";
+import morgan from "morgan"; // logging middleware
+
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// MySQL connection
-// ---- MySQL connection using connection string ----
+// ------------------ MySQL connection ------------------
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -19,7 +20,7 @@ const db = mysql.createConnection({
   database: process.env.DB_DATABASE,
   charset: process.env.DB_CHARSET,
   ssl: {
-    ca: fs.readFileSync("./isrgrootx1.pem"), // 👈 Path to downloaded CA cert
+    ca: fs.readFileSync("./isrgrootx1.pem"),
   },
 });
 
@@ -31,11 +32,32 @@ db.connect((err) => {
   console.log("✅ Connected to MySQL");
 });
 
-// Middleware
+// ------------------ Middleware ------------------
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
-// CORS for frontend
+// Log every incoming request
+app.use(morgan("dev"));
+
+// Custom logger
+app.use((req, res, next) => {
+  console.log("➡️ [REQUEST]", {
+    method: req.method,
+    url: req.originalUrl,
+    body: req.body,
+    query: req.query,
+    cookies: req.cookies,
+    session: req.session,
+  });
+  res.on("finish", () => {
+    console.log("⬅️ [RESPONSE]", {
+      statusCode: res.statusCode,
+    });
+  });
+  next();
+});
+
+// ------------------ CORS ------------------
 app.use(
   cors({
     origin: [
@@ -48,39 +70,52 @@ app.use(
   })
 );
 
-// Session config
+// ------------------ Sessions ------------------
 app.use(
   session({
     secret: "super-secret-key",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: true, // set true in production with HTTPS
+      secure: true,
       httpOnly: true,
-      sameSite: "none", // change to "none" + secure:true in production
+      sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
     },
   })
 );
 
-// Auth middleware
+// ------------------ Auth Middleware ------------------
 function isAuthenticated(req, res, next) {
-  if (req.session.admin) return next();
+  if (req.session.admin) {
+    console.log("🔑 Authenticated admin:", req.session.admin);
+    return next();
+  }
+  console.warn("⛔ Unauthorized access attempt");
   res.status(401).json({ success: false, message: "Unauthorized" });
 }
+
+// ------------------ Routes ------------------
 
 // Admin login
 app.post("/admin/login", (req, res) => {
   const { email, password } = req.body;
+  console.log("🟢 Login attempt:", { email });
+
   db.query(
     "SELECT * FROM admins WHERE email = ? AND password = ?",
     [email, password],
     (err, results) => {
-      if (err) return res.status(500).json({ message: "Server error" });
+      if (err) {
+        console.error("❌ DB error during login:", err);
+        return res.status(500).json({ message: "Server error" });
+      }
       if (results.length > 0) {
         req.session.admin = { email };
+        console.log("✅ Login successful:", email);
         return res.json({ success: true, message: "Login successful" });
       }
+      console.warn("⚠️ Invalid login:", email);
       res.status(401).json({ success: false, message: "Invalid credentials" });
     }
   );
@@ -88,25 +123,36 @@ app.post("/admin/login", (req, res) => {
 
 // Admin logout
 app.post("/admin/logout", (req, res) => {
-  req.session.destroy(() => res.json({ success: true, message: "Logged out" }));
+  console.log("🔴 Logout request:", req.session.admin);
+  req.session.destroy(() => {
+    res.json({ success: true, message: "Logged out" });
+  });
 });
 
-// Dashboard check
+// Dashboard
 app.get("/dashboard", isAuthenticated, (req, res) => {
+  console.log("📊 Dashboard accessed by:", req.session.admin);
   res.json({ success: true, admin: req.session.admin });
 });
 
-// Products routes
+// Get products
 app.get("/api/products", (req, res) => {
+  console.log("📦 Fetching all products...");
   db.query("SELECT * FROM products", (err, results) => {
-    if (err)
+    if (err) {
+      console.error("❌ DB error fetching products:", err);
       return res.status(500).json({ success: false, message: "Server error" });
+    }
+    console.log(`✅ Found ${results.length} products`);
     res.json({ success: true, products: results });
   });
 });
 
+// Add product
 app.post("/api/products", isAuthenticated, (req, res) => {
   const { name, description, image_data } = req.body;
+  console.log("➕ Add product request:", { name, description });
+
   if (!name)
     return res
       .status(400)
@@ -122,10 +168,13 @@ app.post("/api/products", isAuthenticated, (req, res) => {
     "INSERT INTO products (name, description, image_data) VALUES (?, ?, ?)",
     [name, description, image_data],
     (err, result) => {
-      if (err)
+      if (err) {
+        console.error("❌ DB error inserting product:", err);
         return res
           .status(500)
           .json({ success: false, message: "Server error" });
+      }
+      console.log("✅ Product added:", { id: result.insertId, name });
       res.json({
         success: true,
         message: "Product added successfully",
@@ -135,16 +184,22 @@ app.post("/api/products", isAuthenticated, (req, res) => {
   );
 });
 
+// Delete product
 app.delete("/api/products/:id", isAuthenticated, (req, res) => {
   const { id } = req.params;
+  console.log("🗑️ Delete product request:", id);
+
   db.query("DELETE FROM products WHERE id = ?", [id], (err) => {
-    if (err)
+    if (err) {
+      console.error("❌ DB error deleting product:", err);
       return res.status(500).json({ success: false, message: "Server error" });
+    }
+    console.log("✅ Product deleted:", id);
     res.json({ success: true, message: "Product deleted successfully" });
   });
 });
 
-// Start server
+// ------------------ Start server ------------------
 app.listen(PORT, () =>
   console.log(`🚀 Server running on http://localhost:${PORT}`)
 );
