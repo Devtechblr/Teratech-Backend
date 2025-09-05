@@ -134,9 +134,9 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: true,
       httpOnly: true,
       sameSite: "none",
+      secure: process.env.NODE_ENV === "production", // only force HTTPS in prod
       maxAge: 24 * 60 * 60 * 1000,
     },
   })
