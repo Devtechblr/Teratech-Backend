@@ -169,7 +169,7 @@ app.post("/admin/logout", (req, res) => {
   req.session.destroy(() => res.json({ success: true, message: "Logged out" }));
 });
 
-app.get("/dashboard", isAuthenticated, (req, res) => {
+app.get("/admin/dashboard", isAuthenticated, (req, res) => {
   res.json({ success: true, admin: req.session.admin });
 });
 
