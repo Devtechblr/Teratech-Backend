@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 // ------------------ MySQL connection ------------------
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   user: process.env.DB_USER,
@@ -20,16 +20,21 @@ const db = mysql.createConnection({
   database: process.env.DB_DATABASE,
   charset: process.env.DB_CHARSET,
   ssl: {
-    ca: fs.readFileSync("./isrgrootx1.pem"),
+    ca: fs.readFileSync("/app/isrgrootx1.pem"),
   },
+  waitForConnections: true,
+  connectionLimit: 10, // adjust as needed
+  queueLimit: 0,
 });
 
-db.connect((err) => {
+// Optional: test the pool connection once
+db.getConnection((err, connection) => {
   if (err) {
     console.error("❌ MySQL connection error:", err.code, err.message);
     return;
   }
-  console.log("✅ Connected to MySQL");
+  console.log("✅ Connected to MySQL (via pool)");
+  connection.release(); // release back to pool
 });
 
 // ------------------ Middleware ------------------
@@ -75,7 +80,7 @@ app.set("trust proxy", 1); // trust first proxy
 // ------------------ Sessions ------------------
 app.use(
   session({
-    secret: "super-secret-key",
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false,
     cookie: {
