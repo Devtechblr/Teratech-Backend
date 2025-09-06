@@ -15,7 +15,6 @@ export default function Dashboard() {
 
     // Check if logged in & load products
     useEffect(() => {
-        setLoading(true);
         axios
             .get("https://api.terratechaerospace.com/admin/dashboard", { withCredentials: true })
             .then(() => fetchProducts())
@@ -23,6 +22,7 @@ export default function Dashboard() {
                 window.location.href = "/admin/login";
             });
     }, []);
+
 
     const fetchProducts = () => {
         setLoading(true);
