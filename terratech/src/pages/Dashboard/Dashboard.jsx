@@ -16,10 +16,10 @@ export default function Dashboard() {
     // Check if logged in & load products
     useEffect(() => {
         axios
-            .get("https://api.terratechaerospace.com/admin/dashboard", { withCredentials: true })
+            .get("https://api.terratechaerospace.com/dashboard", { withCredentials: true })
             .then(() => fetchProducts())
             .catch(() => {
-                window.location.href = "/admin/login";
+                window.location.href = "/admin";
             });
     }, []);
 
@@ -97,12 +97,12 @@ export default function Dashboard() {
         axios
             .post("https://api.terratechaerospace.com/admin/logout", {}, { withCredentials: true })
             .then(() => {
-                window.location.href = "/admin/login";
+                window.location.href = "/admin";
             })
             .catch((err) => {
                 console.error("Logout error:", err);
                 // Force logout even if there's an error
-                window.location.href = "/admin/login";
+                window.location.href = "/admin";
             });
     };
 

@@ -14,7 +14,7 @@ export default function AdminLogin() {
                 { email, password },
                 { withCredentials: true }
             );
-            window.location.href = "/admin/dashboard";
+            window.location.href = "/dashboard";
         } catch (err) {
             setMessage(err.response?.data?.message || "Login failed");
         }

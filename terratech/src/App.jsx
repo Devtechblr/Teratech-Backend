@@ -35,7 +35,7 @@ const AppContent = () => {
         <Route path="/civilian" element={<Civilian />} />
 
         {/* New Auth Routes */}
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminLogin />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/products" element={<ProductListing />} />
       </Routes>
