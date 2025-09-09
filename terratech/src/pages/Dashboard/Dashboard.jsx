@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Buffer } from "buffer";
 
 export default function Dashboard() {
     const [name, setName] = useState("");
@@ -12,6 +13,7 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [deleting, setDeleting] = useState(null);
+
 
     // Fetch user and products
     useEffect(() => {
@@ -28,6 +30,17 @@ export default function Dashboard() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    function bufferToBase64(bufferArray) {
+        let binary = '';
+        const bytes = new Uint8Array(bufferArray);
+        const len = bytes.byteLength;
+        for (let i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        return window.btoa(binary);
+    }
+
+
     const fetchProducts = () => {
         setLoading(true);
         axios
@@ -42,6 +55,7 @@ export default function Dashboard() {
                 setLoading(false);
             });
     };
+
 
     const addProduct = async (e) => {
         e.preventDefault();
@@ -258,29 +272,14 @@ export default function Dashboard() {
                                 >
                                     {/* Image */}
                                     <div className="h-40 sm:h-48 bg-gray-200 relative">
-                                        {typeof product.image_data === "string" && product.image_data.length > 0 ? (
-                                            <img
-                                                src={
-                                                    product.image_data.startsWith("http") || product.image_data.startsWith("/")
-                                                        ? product.image_data // it's a URL
-                                                        : `data:image/png;base64,${product.image_data}` // it's base64
-                                                }
-                                                alt={product.name}
-                                                className="w-full h-full object-cover"
-                                                onError={(e) => {
-                                                    e.target.onerror = null;
-                                                    e.target.src = "/favicon-removebg-preview.png";
-                                                }}
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                                                <img
-                                                    src="/favicon-removebg-preview.png"
-                                                    alt="No image"
-                                                    className="h-16 sm:h-20 w-auto opacity-50"
-                                                />
-                                            </div>
-                                        )}
+                                        <img
+                                            src={
+                                                product.image_data // it's base64
+                                            }
+                                            alt={product.name}
+                                            className="w-full h-full object-cover"
+
+                                        />
                                     </div>
 
 

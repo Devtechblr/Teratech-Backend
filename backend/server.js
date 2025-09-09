@@ -4,7 +4,8 @@ import mysql from "mysql2";
 import session from "express-session";
 import dotenv from "dotenv";
 import fs from "fs";
-import morgan from "morgan"; // logging middleware
+import morgan from "morgan";
+import { Buffer } from "buffer";
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ const db = mysql.createPool({
   database: process.env.DB_DATABASE,
   charset: process.env.DB_CHARSET,
   ssl: {
-    ca: fs.readFileSync("/app/isrgrootx1.pem"),
+    ca: fs.readFileSync("./isrgrootx1.pem"),
   },
   waitForConnections: true,
   connectionLimit: 10, // adjust as needed
@@ -150,8 +151,15 @@ app.get("/api/products", (req, res) => {
       console.error("❌ DB error fetching products:", err);
       return res.status(500).json({ success: false, message: "Server error" });
     }
-    console.log(`✅ Found ${results.length} products`);
-    res.json({ success: true, products: results });
+    // Map results to convert Buffer image column (e.g., 'image_data')
+    const products = results.map((product) => {
+      if (product.image_data && Buffer.isBuffer(product.image_data)) {
+        product.image_data = product.image_data.toString("base64");
+      }
+      return product;
+    });
+    console.log(`✅ Found ${products.length} products`);
+    res.json({ success: true, products });
   });
 });
 
