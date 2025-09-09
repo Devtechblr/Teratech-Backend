@@ -4,7 +4,8 @@ import axios from "axios";
 export default function Dashboard() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
+    const [imageUrl, setImageUrl] = useState(""); // pure base64 string (no prefix)
+    const [previewUrl, setPreviewUrl] = useState(""); // blob URL or DataURL for preview
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState("success");
     const [products, setProducts] = useState([]);
@@ -20,6 +21,11 @@ export default function Dashboard() {
             .catch(() => {
                 window.location.href = "/admin";
             });
+
+        return () => {
+            if (previewUrl) URL.revokeObjectURL(previewUrl);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const fetchProducts = () => {
@@ -45,14 +51,18 @@ export default function Dashboard() {
         try {
             const res = await axios.post(
                 "https://api.terratechaerospace.com/api/products",
-                { name, description, image_url: imageUrl },
+                { name, description, image_data: imageUrl }, // ✅ use image_data not image_url
                 { withCredentials: true }
             );
-            setMessage(res.data.message);
+            setMessage(res.data.message || "Product added");
             setMessageType("success");
             setName("");
             setDescription("");
             setImageUrl("");
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+                setPreviewUrl("");
+            }
             fetchProducts();
         } catch (err) {
             setMessage(err.response?.data?.message || "Error adding product");
@@ -102,6 +112,20 @@ export default function Dashboard() {
         }
     };
 
+    // ✅ File input handler: extract pure base64 string and keep preview
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result.split(",")[1]; // remove prefix
+                setImageUrl(base64String);
+                setPreviewUrl(reader.result); // keep full DataURL for preview
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -137,8 +161,8 @@ export default function Dashboard() {
                 {message && (
                     <div
                         className={`mb-6 p-3 sm:p-4 text-sm rounded-lg border flex items-center ${messageType === "success"
-                                ? "text-green-700 bg-green-100 border-green-200"
-                                : "text-red-700 bg-red-100 border-red-200"
+                            ? "text-green-700 bg-green-100 border-green-200"
+                            : "text-red-700 bg-red-100 border-red-200"
                             }`}
                     >
                         {message}
@@ -150,14 +174,9 @@ export default function Dashboard() {
                     <h2 className="text-lg sm:text-xl font-semibold mb-6 text-gray-800 border-b pb-3">
                         Add New Product
                     </h2>
-                    <form
-                        onSubmit={addProduct}
-                        className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6"
-                    >
+                    <form onSubmit={addProduct} className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Product Name
-                            </label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
                             <input
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
@@ -167,16 +186,24 @@ export default function Dashboard() {
                             />
                         </div>
 
+                        {/* Image Upload */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Image URL
-                            </label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
                             <input
-                                value={imageUrl}
-                                onChange={(e) => setImageUrl(e.target.value)}
-                                placeholder="https://example.com/image.jpg"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
                                 className="w-full px-3 py-2 sm:px-4 sm:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
+                            {(previewUrl) && (
+                                <div className="mt-3">
+                                    <img
+                                        src={previewUrl}
+                                        alt="Preview"
+                                        className="h-24 w-24 object-cover rounded border"
+                                    />
+                                </div>
+                            )}
                         </div>
 
                         <div className="md:col-span-2">
@@ -219,12 +246,8 @@ export default function Dashboard() {
                         </div>
                     ) : products.length === 0 ? (
                         <div className="bg-gray-50 rounded-lg p-6 sm:p-8 text-center border border-gray-200">
-                            <p className="text-gray-600 text-base sm:text-lg mb-2">
-                                No products found
-                            </p>
-                            <p className="text-gray-500 text-sm">
-                                Add your first product using the form above
-                            </p>
+                            <p className="text-gray-600 text-base sm:text-lg mb-2">No products found</p>
+                            <p className="text-gray-500 text-sm">Add your first product using the form above</p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
@@ -235,9 +258,13 @@ export default function Dashboard() {
                                 >
                                     {/* Image */}
                                     <div className="h-40 sm:h-48 bg-gray-200 relative">
-                                        {product.image_url ? (
+                                        {typeof product.image_data === "string" && product.image_data.length > 0 ? (
                                             <img
-                                                src={product.image_url}
+                                                src={
+                                                    product.image_data.startsWith("http") || product.image_data.startsWith("/")
+                                                        ? product.image_data // it's a URL
+                                                        : `data:image/png;base64,${product.image_data}` // it's base64
+                                                }
                                                 alt={product.name}
                                                 className="w-full h-full object-cover"
                                                 onError={(e) => {
@@ -256,21 +283,18 @@ export default function Dashboard() {
                                         )}
                                     </div>
 
+
                                     {/* Content */}
                                     <div className="p-4 sm:p-5">
                                         <h3 className="font-semibold text-base sm:text-lg text-gray-800 mb-2 line-clamp-1">
                                             {product.name}
                                         </h3>
-                                        <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                                            {product.description}
-                                        </p>
+                                        <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.description}</p>
                                         <div className="flex justify-between items-center">
                                             <button
                                                 onClick={() => deleteProduct(product.id)}
                                                 disabled={deleting === product.id}
-                                                className={`flex items-center px-3 py-1.5 rounded text-white text-sm sm:text-base ${deleting === product.id
-                                                        ? "bg-gray-400"
-                                                        : "bg-red-500 hover:bg-red-600"
+                                                className={`flex items-center px-3 py-1.5 rounded text-white text-sm sm:text-base ${deleting === product.id ? "bg-gray-400" : "bg-red-500 hover:bg-red-600"
                                                     }`}
                                             >
                                                 {deleting === product.id ? "Deleting..." : "Delete"}
