@@ -21,7 +21,7 @@ const db = mysql.createPool({
   database: process.env.DB_DATABASE,
   charset: process.env.DB_CHARSET,
   ssl: {
-    ca: fs.readFileSync("./isrgrootx1.pem"),
+    ca: fs.readFileSync("/app/isrgrootx1.pem"),
   },
   waitForConnections: true,
   connectionLimit: 10, // adjust as needed
