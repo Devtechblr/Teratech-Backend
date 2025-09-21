@@ -187,9 +187,9 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // set true in production with HTTPS
+      secure: true, // set true in production with HTTPS
       httpOnly: true,
-      sameSite: "lax", // change to "none" + secure:true in production
+      sameSite: "none", // change to "none" + secure:true in production else lax
       maxAge: 24 * 60 * 60 * 1000,
     },
   })
