@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Buffer } from "buffer";
 
 export default function Dashboard() {
+    // Remove the unused Buffer import since we're not using base64 anymore
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [imageUrl, setImageUrl] = useState(""); // pure base64 string (no prefix)
-    const [previewUrl, setPreviewUrl] = useState(""); // blob URL or DataURL for preview
+    const [imageFile, setImageFile] = useState(null); // Store the file object
+    const [previewUrl, setPreviewUrl] = useState(""); // blob URL for preview
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState("success");
     const [products, setProducts] = useState([]);
@@ -30,15 +30,14 @@ export default function Dashboard() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    function bufferToBase64(bufferArray) {
-        let binary = '';
-        const bytes = new Uint8Array(bufferArray);
-        const len = bytes.byteLength;
-        for (let i = 0; i < len; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        return window.btoa(binary);
-    }
+    // Clean up preview URL on unmount or when image changes
+    useEffect(() => {
+        return () => {
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+            }
+        };
+    }, [previewUrl]);
 
 
     const fetchProducts = () => {
@@ -62,17 +61,29 @@ export default function Dashboard() {
         setSubmitting(true);
         setMessage("");
 
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('description', description);
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
+
         try {
             const res = await axios.post(
                 "https://api.terratechaerospace.com/api/products",
-                { name, description, image_data: imageUrl }, // ✅ use image_data not image_url
-                { withCredentials: true }
+                formData,
+                {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
             );
             setMessage(res.data.message || "Product added");
             setMessageType("success");
             setName("");
             setDescription("");
-            setImageUrl("");
+            setImageFile(null);
             if (previewUrl) {
                 URL.revokeObjectURL(previewUrl);
                 setPreviewUrl("");
@@ -126,17 +137,12 @@ export default function Dashboard() {
         }
     };
 
-    // ✅ File input handler: extract pure base64 string and keep preview
+    // File input handler
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const base64String = reader.result.split(",")[1]; // remove prefix
-                setImageUrl(base64String);
-                setPreviewUrl(reader.result); // keep full DataURL for preview
-            };
-            reader.readAsDataURL(file);
+            setImageFile(file);
+            setPreviewUrl(URL.createObjectURL(file));
         }
     };
 
@@ -234,16 +240,15 @@ export default function Dashboard() {
                             <p className="text-xs text-gray-500 mt-1">
                                 {description.trim().split(/\s+/).filter(Boolean).length}/200 words
                             </p>
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <button
-                                type="submit"
-                                disabled={submitting}
-                                className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 font-semibold shadow-md flex justify-center items-center"
-                            >
-                                {submitting ? "Adding Product..." : "Add Product"}
-                            </button>
+                            <div className="mt-6">
+                                <button
+                                    type="submit"
+                                    disabled={submitting}
+                                    className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 font-semibold shadow-md flex justify-center items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                >
+                                    {submitting ? "Adding Product..." : "Add Product"}
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -274,7 +279,7 @@ export default function Dashboard() {
                                     <div className="h-40 sm:h-48 bg-gray-200 relative">
                                         <img
                                             src={
-                                                `data:image/png;base64,${product.image_data}`
+                                                product.image_data // it's base64
                                             }
                                             alt={product.name}
                                             className="w-full h-full object-cover"
