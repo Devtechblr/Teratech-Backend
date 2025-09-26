@@ -274,7 +274,7 @@ export default function Dashboard() {
                                     <div className="h-40 sm:h-48 bg-gray-200 relative">
                                         <img
                                             src={
-                                                product.image_data // it's base64
+                                                `data:image/png;base64,${product.image_data}`
                                             }
                                             alt={product.name}
                                             className="w-full h-full object-cover"
