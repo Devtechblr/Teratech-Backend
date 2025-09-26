@@ -13,7 +13,7 @@ export default function Security() {
   }, []);
 
   return (
-    <div className="bg-white w-full min-h-screen py-10 px-0">
+    <div className="bg-white w-full min-h-screen py-10 px-0 overflow-x-hidden">
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
 
         {/* Left Section: Text */}

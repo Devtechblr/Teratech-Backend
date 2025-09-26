@@ -14,7 +14,7 @@ export default function Civilian() {
   }, []);
 
   return (
-    <div className="bg-white w-full min-h-screen py-10">
+    <div className="bg-white w-full min-h-screen py-10 overflow-x-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 
         {/* Left Section: Text */}

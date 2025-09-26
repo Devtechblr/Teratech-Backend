@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Support() {
@@ -9,34 +8,48 @@ export default function Support() {
 
   useEffect(() => {
     AOS.init({
-      duration: 1000, // animation duration in ms     // only animate once
+      duration: 1000,
     });
   }, []);
+
   return (
-    <div className="bg-white w-full min-h-screen py-10 px-0">
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+    <div className="bg-white w-full min-h-screen py-10 px-0 overflow-x-hidden">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-start px-4 md:px-12">
         {/* Left Section: Text */}
-        <div className="px-4 md:px-12 ">
+        <div>
           <h2 className="text-3xl md:text-4xl font-semibold mb-4 tracking-wide">
-            <span className="text-[#1C98ED]">SUPPORT</span> AND <span className="text-[#1C98ED]">SERVICES</span>
-          </h2><br />
+            <span className="text-[#1C98ED]">SUPPORT</span> AND{' '}
+            <span className="text-[#1C98ED]">SERVICES</span>
+          </h2>
+          <br />
           <div className="space-y-12">
             <div>
-              <h3 className="font-bold text-xl md:text-2xl mb-2">TARGETED SOLUTION</h3>
+              <h3 className="font-bold text-xl md:text-2xl mb-2">
+                TARGETED SOLUTION
+              </h3>
               <p className="text-gray-700 text-lg md:text-xl">
-                Our solutions package extends beyond the product and provides services of associated systems. These include ground control stations, communications links and data terminals together with managed services, enabling both military and civilian organisations to select the package that best meets their requirements.
+                Our solutions package extends beyond the product and provides
+                services of associated systems. These include ground control
+                stations, communications links and data terminals together with
+                managed services, enabling both military and civilian
+                organisations to select the package that best meets their
+                requirements.
               </p>
             </div>
           </div>
-
         </div>
 
         {/* Right Section: Button + Image */}
-        <div className="w-full flex flex-col items-end pr-0 mr-0" data-aos="fade-left">
+        <div
+          className="w-full flex flex-col items-end"
+          data-aos="fade-left"
+        >
           {/* Button */}
           <div className="mb-4">
-            <button className="px-16 py-3 bg-[#1C98ED] text-white font-semibold cursor-pointer hover:bg-[#1878b8] transition"
-              onClick={() => navigate("/getitnow")}>
+            <button
+              className="px-16 py-3 bg-[#1C98ED] text-white font-semibold cursor-pointer hover:bg-[#1878b8] transition"
+              onClick={() => navigate('/getitnow')}
+            >
               GET IN TOUCH
             </button>
           </div>
@@ -45,20 +58,19 @@ export default function Support() {
           <img
             src="/image (2).png"
             alt="Flybot-X UAV"
-            className="object-cover shadow-lg max-h-[400px] w-full md:w-[90%] lg:w-[100%]"
+            className="object-cover shadow-lg max-h-[400px] w-full md:w-[90%] lg:w-full"
           />
         </div>
       </div>
 
-      {/* Footer UAV Graphic - Bigger & Aligned Left */}
+      {/* Footer UAV Graphic */}
       <div className="w-full -mt-12 px-4" data-aos="fade-right">
         <img
           src="/assets/FLYBOT-X.png"
           alt="Decorative Footer UAV"
-          className="object-contain ml-0 w-[300px] md:w-[500px] lg:w-[600px]"
+          className="object-contain w-[300px] md:w-[500px] lg:w-[600px]"
         />
       </div>
     </div>
-  )
+  );
 }
-
