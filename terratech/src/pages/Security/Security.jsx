@@ -61,7 +61,7 @@ export default function Security() {
 
           {/* Image */}
           <img
-            src="/image (2).png"
+            src="/Screenshot 2025-09-29 112840.png"
             alt="Flybot-X UAV"
             className="object-cover shadow-lg max-h-[400px] w-full md:w-[90%] lg:w-[100%]"
           />
