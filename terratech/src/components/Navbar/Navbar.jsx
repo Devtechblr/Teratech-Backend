@@ -82,6 +82,13 @@ const Navbar = () => {
           >
             About Us
           </Link>
+          <Link
+            to="/contact"
+            className="block text-white py-2"
+            onClick={() => setMenuOpen(false)}
+          >
+            Contact Us
+          </Link>
 
         </div>
       )}

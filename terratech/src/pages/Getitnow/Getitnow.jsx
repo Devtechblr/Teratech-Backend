@@ -184,9 +184,14 @@ const Getitnow = () => {
                 Conduct your projects with TerraTech state-of-the-art mapping drone, FLYBOT-X
               </p>
             </div>
-            <button className="bg-gray-800 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-semibold text-base md:text-lg hover:bg-gray-700 transition-colors">
-              DOWNLOAD
-            </button>
+            <a
+              href="/Flybot-X from TerraTechAerspace.pdf" // place your pdf inside public/files/sample.pdf
+              download="Flybot-X from TerraTechAerspace.pdf"
+            >
+              <button className="bg-gray-800 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-semibold text-base md:text-lg hover:bg-gray-700 transition-colors">
+                DOWNLOAD
+              </button>
+            </a>
           </div>
         </div>
       </div>
