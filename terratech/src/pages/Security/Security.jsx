@@ -13,7 +13,7 @@ export default function Security() {
   }, []);
 
   return (
-    <div className="bg-white w-full min-h-screen py-10 px-0 overflow-x-hidden">
+    <div className="bg-white w-full min-h-screen py-10 overflow-x-hidden">
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
 
         {/* Left Section: Text */}
@@ -52,7 +52,7 @@ export default function Security() {
           {/* Button */}
           <div className="mb-4">
             <button
-              className="px-16 py-3 bg-[#1C98ED] text-white font-semibold cursor-pointer hover:bg-[#1878b8] transition"
+              className="px-16 py-3 bg-[#02A657] text-white font-semibold cursor-pointer hover:bg-[#0b894c] transition"
               onClick={() => navigate("/getitnow")}
             >
               GET IN TOUCH
