@@ -40,7 +40,7 @@ const Getitnow = () => {
 
             {/* Payload Upto */}
             <div className="text-center p-4 bg-gray-100 rounded-lg">
-              <div className="text-sm md:text-base text-gray-600 font-medium mb-2">Payload Upto</div>
+              <div className="text-sm md:text-base text-gray-600 font-medium mb-2">Swappable Payload Upto</div>
               <div className="text-2xl md:text-3xl font-bold text-[#1C98ED]">
                 +<CountUp start={0} end={2} duration={3} /> Kg
               </div>
@@ -50,7 +50,7 @@ const Getitnow = () => {
             <div className="text-center p-4 bg-gray-100 rounded-lg">
               <div className="text-sm md:text-base text-gray-600 font-medium mb-2">Range Upto</div>
               <div className="text-2xl md:text-3xl font-bold text-[#1C98ED]">
-                +<CountUp start={0} end={40} duration={3} /> m
+                +<CountUp start={0} end={4} duration={3} /> Km
               </div>
             </div>
 
