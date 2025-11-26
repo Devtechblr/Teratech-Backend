@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import CountUp from 'react-countup';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from "axios";
 
 
 const Home = () => {
@@ -12,6 +13,22 @@ const Home = () => {
       duration: 1000, // animation duration in ms     // only animate once
     });
   }, []);
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://api.terratechaerospace.com/api/products")
+      .then(res => {
+        if (res.data.success) {
+          setProducts(res.data.products);
+        }
+      })
+      .catch(err => {
+        console.error("Error fetching products:", err);
+      });
+  }, []);
+
   return (
     <>
       {/* Hero Section - Full Viewport Height */}
@@ -30,7 +47,7 @@ const Home = () => {
 
         {/* Centered Content Container */}
         <div className="relative w-full h-full flex flex-col justify-center items-center z-10 text-center px-4 sm:px-6 md:px-8">
-          
+
           {/* Small Heading - FLYBOT-X */}
           <h3 className="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl uppercase tracking-widest font-light mb-4 sm:mb-6 md:mb-8">
             FLYBOT-X
@@ -134,6 +151,125 @@ const Home = () => {
           </div>
 
         </section>
+
+        <div
+          style={{
+            padding: "20px",
+            backgroundColor: "#f8f9fa",
+            minHeight: "100vh",
+          }}
+        >
+          <h1
+            style={{
+              textAlign: "center",
+              marginBottom: "10px",
+              fontSize: "2rem",
+              color: "#222",
+              fontWeight: "700",
+            }}
+          >
+            Our Products
+          </h1>
+          <p style={{
+            textAlign: "center",
+            color: "#666",
+            fontSize: "1.1rem",
+            maxWidth: "800px",
+            margin: "0 auto 30px",
+            lineHeight: "1.5"
+          }}>
+            Discover our range of cutting-edge drones and flight control systems.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", // responsive columns
+              gap: "20px",
+              width: "100%", // full width
+              maxWidth: "1200px", // keeps content centered on big screens
+              margin: "0 auto", // center align
+              padding: "0 10px", // small padding for mobile
+            }}
+          >
+            {products.map((p) => (
+              <div
+                key={p.id}
+                style={{
+                  background: "#fff",
+                  borderRadius: "15px",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                  overflow: "hidden",
+                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-5px)";
+                  e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.1)";
+                }}
+              >
+                <img
+                  src={p.image_data || "/favicon-removebg-preview.png"}
+                  alt={p.name}
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: "cover",
+                  }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/favicon-removebg-preview.png";
+                  }}
+                />
+                <div style={{ padding: "18px" }}>
+                  {/* Product Name */}
+                  <h3
+                    style={{
+                      margin: "0 0 8px",
+                      color: "#1a1a1a",
+                      fontSize: "1.25rem",
+                      fontWeight: "600",
+                      letterSpacing: "0.5px",
+                    }}
+                  >
+                    {p.name}
+                  </h3>
+
+                  {/* Product Description */}
+                  <p
+                    style={{
+                      fontSize: "0.95rem",
+                      color: "#555",
+                      lineHeight: "1.5",
+                      marginBottom: "12px",
+                      minHeight: "50px",
+                    }}
+                  >
+                    {p.description}
+                  </p>
+
+                  {/* Product Price */}
+                  {p.price && (
+                    <p
+                      style={{
+                        fontWeight: "700",
+                        color: "#ff5722",
+                        fontSize: "1.3rem",
+                        marginTop: "5px",
+                      }}
+                    >
+                      ${p.price}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
 
         {/* Application Section */}
         <section className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-14 2xl:py-16 bg-white" data-aos="fade-up">
