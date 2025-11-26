@@ -12,7 +12,7 @@ const Nav = () => {
                 <Link to="/faq" className="text-white text-xs md:text-sm font-medium hover:text-gray-200 transition-colors">
                     FAQ
                 </Link>
-                <Link to="/getitnow" className="bg-white text-[#8F5D46] px-3 py-1 md:px-4 md:py-2 text-xs md:text-sm font-semibold rounded-full hover:bg-gray-100 transition-colors">
+                <Link to="/contact" className="bg-white text-[#8F5D46] px-3 py-1 md:px-4 md:py-2 text-xs md:text-sm font-semibold rounded-full hover:bg-gray-100 transition-colors">
                     Order Now
                 </Link>
             </div>

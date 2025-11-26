@@ -18,19 +18,19 @@ const Home = () => {
       <div className="relative w-full h-[40vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[85vh] 2xl:h-[90vh] flex justify-end items-start bg-gradient-to-br from-[#fff] via-[#fff] to-[#fff] overflow-hidden">
         {/* LOGO + TEXT Section */}
         <div className="absolute top-0 left-1 sm:top-2 sm:left-4 md:top-4 md:left-12 lg:top-6 lg:left-16 xl:top-8 xl:left-20 2xl:top-10 2xl:left-28 py-4 px-2 z-20">
-          <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
+          {/* <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
             <img
               src={'/favicon-removebg-preview.png'}
               alt="Website Logo"
               className="w-14 sm:w-14 md:w-18 lg:w-22 xl:w-26 2xl:w-32 h-auto object-contain"
             />
-          </div>
+          </div> */}
           <div className="mt-10 sm:mt-8 md:mt-12 lg:mt-16 xl:mt-20 2xl:mt-24 flex flex-col gap-2 sm:gap-3 md:gap-4">
             <div className="flex flex-col items-start gap-1 sm:gap-1" >
-              <h1 className="text-[#1F2832] text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl uppercase tracking-widest">
+              <h1 className="text-[#1F2832] text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl uppercase tracking-widest font-bold">
                 A High Performance
               </h1>
-              <p className="text-[#1F2832] text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl uppercase tracking-widest">
+              <p className="text-[#1F2832] text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl uppercase tracking-widest font-bold">
                 Commercial Drone
               </p>
             </div>
