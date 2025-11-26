@@ -14,51 +14,37 @@ const Home = () => {
   }, []);
   return (
     <>
-      {/* Logo + Text */}
-      <div className="relative w-full h-[40vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[85vh] 2xl:h-[90vh] flex justify-end items-start bg-gradient-to-br from-[#fff] via-[#fff] to-[#fff] overflow-hidden">
-        {/* LOGO + TEXT Section */}
-        <div className="absolute top-0 left-1 sm:top-2 sm:left-4 md:top-4 md:left-12 lg:top-6 lg:left-16 xl:top-8 xl:left-20 2xl:top-10 2xl:left-28 py-4 px-2 z-20">
-          {/* <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
-            <img
-              src={'/favicon-removebg-preview.png'}
-              alt="Website Logo"
-              className="w-14 sm:w-14 md:w-18 lg:w-22 xl:w-26 2xl:w-32 h-auto object-contain"
-            />
-          </div> */}
-          <div className="mt-10 sm:mt-8 md:mt-12 lg:mt-16 xl:mt-20 2xl:mt-24 flex flex-col gap-2 sm:gap-3 md:gap-4">
-            <div className="flex flex-col items-start gap-1 sm:gap-1" >
-              <h1 className="text-[#1F2832] text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl uppercase tracking-widest font-bold">
-                A High Performance
-              </h1>
-              <p className="text-[#1F2832] text-xs sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl uppercase tracking-widest font-bold">
-                Commercial Drone
-              </p>
-            </div>
-
-            <div className="bg-[#1F2832] mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12 2xl:mt-16 px-2 py-1 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 xl:px-10 xl:py-5 2xl:px-12 2xl:py-6 rounded-lg w-fit shadow-md">
-              <h2 className="text-white text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold tracking-wide">
-                FLYBOT-<span className="text-cyan-400 font-light">X</span>
-              </h2>
-            </div>
-          </div>
-
-
-
+      {/* Hero Section - Full Viewport Height */}
+      <div className="relative w-full h-screen overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src='/assets/main.png'
+            alt="Hero Background Drone"
+            className="w-full h-full object-cover"
+          />
         </div>
 
-        {/* Right Side: Drone Image + Button */}
-        <div className="relative w-full h-full overflow-x-hidden z-10">
-          <div className="absolute top-0 -right-1 w-[70%] h-[92%]">
-            <img
-              src='/assets/main.png'
-              alt="Hero Background"
-              className="w-full h-[100%] object-cover saturate-110 rounded-bl-[4rem]"
-            />
-          </div>
+        {/* Semi-transparent Bluish Overlay */}
+        <div className="absolute inset-0 bg-[rgba(0,51,102,0.45)]"></div>
 
+        {/* Centered Content Container */}
+        <div className="relative w-full h-full flex flex-col justify-center items-center z-10 text-center px-4 sm:px-6 md:px-8">
+          
+          {/* Small Heading - FLYBOT-X */}
+          <h3 className="text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl uppercase tracking-widest font-light mb-4 sm:mb-6 md:mb-8">
+            FLYBOT-X
+          </h3>
+
+          {/* Main Heading - A HIGH PERFORMANCE COMMERCIAL DRONE */}
+          <h1 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold uppercase tracking-wide leading-tight max-w-4xl">
+            A HIGH PERFORMANCE<br />COMMERCIAL DRONE
+          </h1>
+
+          {/* CTA Button - Get It Now */}
           <Link
             to="/getitnow"
-            className="absolute py-1 sm:py-2 md:py-3 lg:py-4 xl:py-5 2xl:py-6 bottom-1 sm:bottom-4 md:bottom-6 lg:bottom-8 xl:bottom-10 2xl:bottom-12 right-0 bg-gradient-to-r from-[#1F2832] to-[#2e3e4f] text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl w-20 sm:w-32 md:w-40 lg:w-48 xl:w-56 2xl:w-64 font-medium shadow-lg hover:scale-105 hover:shadow-xl transition duration-300 ease-in-out text-center flex items-center justify-center rounded"
+            className="mt-8 sm:mt-10 md:mt-12 lg:mt-14 xl:mt-16 2xl:mt-20 px-6 sm:px-8 md:px-10 lg:px-12 xl:px-14 py-3 sm:py-3.5 md:py-4 lg:py-4.5 xl:py-5 2xl:py-6 bg-[#45D0A5] hover:bg-[#3dbf94] text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl font-semibold rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out"
           >
             Get It Now
           </Link>

@@ -9,21 +9,16 @@ import Civilian from './pages/Civilian/Civilian'
 import AdminLogin from './pages/Login/Login'
 import Dashboard from './pages/Dashboard/Dashboard'
 import ProductListing from './pages/ProductListing/ProductListing'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Topnav from './components/Topnav/Topnav'
 import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
-import Nav from './components/Topnav/Nav'
 
 const AppContent = () => {
-  const location = useLocation()
-  const isGetItNowPage = location.pathname === '/getitnow'
-
   return (
     <>
       <Topnav />
       <Navbar />
-      {isGetItNowPage && <Nav />}
 
       <Routes>
         <Route path="/" element={<Home />} />
