@@ -6,7 +6,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="w-full bg-[#FFFFFF]">
+    <div className="w-full bg-[#FFFFFF] border-b border-gray-200">
       <nav className="flex items-center px-4 py-2">
         {/* Left: Logo */}
         <div className="flex items-center">
