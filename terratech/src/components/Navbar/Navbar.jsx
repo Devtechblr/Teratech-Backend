@@ -36,9 +36,9 @@ const Navbar = () => {
           >
             Services
           </button>
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center">
             <button
-              className="bg-[#8F5D46] text-white text-lg px-6 py-1 rounded-[10px] cursor-pointer mb-3"
+              className="bg-[#8F5D46] text-white font-bold px-6 py-2 rounded-[30px] cursor-pointer mr-4"
               onClick={() => window.open("https://aryan-dcs.netlify.app", "_blank")}
             >
               Services

@@ -28,7 +28,7 @@ export default function ProductListing() {
             <h1
                 style={{
                     textAlign: "center",
-                    marginBottom: "30px",
+                    marginBottom: "10px",
                     fontSize: "2rem",
                     color: "#222",
                     fontWeight: "700",
@@ -36,6 +36,16 @@ export default function ProductListing() {
             >
                 Our Products
             </h1>
+            <p style={{
+                textAlign: "center",
+                color: "#666",
+                fontSize: "1.1rem",
+                maxWidth: "800px",
+                margin: "0 auto 30px",
+                lineHeight: "1.5"
+            }}>
+                Discover our range of cutting-edge drones and flight control systems.
+            </p>
 
             <div
                 style={{
