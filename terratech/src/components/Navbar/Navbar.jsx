@@ -32,14 +32,14 @@ const Navbar = () => {
         <div className="flex items-center space-x-4 ml-auto">
           <button
             className="bg-[#8F5D46] text-white font-bold px-6 py-2 rounded-[30px] cursor-pointer hidden sm:inline-flex"
-            onClick={() => window.open("https://aryan-dcs.netlify.app", "_blank")}
+            onClick={() => window.open("https://aryanaerospace.com", "_blank")}
           >
             Services
           </button>
           <div className="md:hidden flex items-center">
             <button
               className="bg-[#8F5D46] text-white font-bold px-6 py-2 rounded-[30px] cursor-pointer mr-4"
-              onClick={() => window.open("https://aryan-dcs.netlify.app", "_blank")}
+              onClick={() => window.open("https://aryanaerospace.com", "_blank")}
             >
               Services
             </button>
