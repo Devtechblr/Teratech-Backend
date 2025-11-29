@@ -65,6 +65,12 @@ const Home = () => {
           >
             Get It Now
           </Link>
+          <Link
+            to="/contact"
+            className="mt-2 text-white text-sm font-semibold underline hover:text-gray-300 transition-all duration-300 ease-in-out"
+          >
+            Ask for a Demo
+          </Link>
 
         </div>
       </div>
@@ -74,7 +80,7 @@ const Home = () => {
           {/* Left Block */}
           <div className="w-fit px-1 sm:px-2 md:px-3 lg:px-4 xl:px-5 2xl:px-6">
             <h2 className="text-sm sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-[#1F2832] mb-0.5 sm:mb-1 md:mb-2">
-              +<CountUp start={1} end={40} duration={4} />
+              +<CountUp start={1} end={4} duration={4} />KM
             </h2>
             <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl text-[#1F2832] font-medium">
               Estimated Range
