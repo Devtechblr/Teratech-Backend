@@ -69,7 +69,7 @@ export default function Civilian() {
           {/* Button */}
           <div className="mb-4">
             <button
-              className="px-16 py-3 bg-[#1C98ED] text-white font-semibold cursor-pointer hover:bg-[#1878b8] transition"
+              className="px-16 py-3 bg-[#02A657] text-white font-semibold cursor-pointer hover:bg-[#098a4c] transition"
               onClick={() => navigate("/getitnow")}
             >
               GET IN TOUCH
